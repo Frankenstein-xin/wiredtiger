@@ -61,6 +61,38 @@ extern "C" {
 #include <windows.h>
 #endif
 
+// This macro doesn't do anything. We only use it to highlight to readers that the variable is a
+// shared var. wt_shared has been chosen as it looks closest to a type modifier (i.e. volatile) and
+// retains the wt_ prefix to prevent namespace collisions.
+// FIXME-WT-11549 - Move this elsewhere. s_all will overwrite it.
+#define wt_shared
+
+// Alternate candidates that were rejected:
+
+#define _Shared
+// Reserved by the C standard
+// _Shared volatile uint64_t generations[WT_GENERATIONS];
+
+// #define shared
+// It looks nice, but as a common word the pre-processor breaks a lot of things.
+// shared volatile uint64_t generations[WT_GENERATIONS];
+
+#define __shared
+// Looks like a static function. Possible caller namespace issues
+// __shared volatile uint64_t generations[WT_GENERATIONS];
+
+#define SHARED
+// Could pollute caller's namespace
+// SHARED volatile uint64_t generations[WT_GENERATIONS];
+
+#define WT_SHARED
+// Looks like a WT struct type */
+// WT_SHARED volatile uint64_t generations[WT_GENERATIONS];
+
+#define wt_shared_t
+// looks like a custom type
+// wt_shared_t volatile uint64_t generations[WT_GENERATIONS];
+
 /*
  * DO NOT EDIT: automatically built by dist/s_typedef.
  * Forward type declarations for internal types: BEGIN
@@ -405,12 +437,6 @@ union __wt_rand_state;
 typedef union __wt_rand_state WT_RAND_STATE;
 
 typedef uint64_t wt_timestamp_t;
-
-// This macro doesn't do anything. We only use it to highlight to readers that the variable is a shared var.
-// e.g. _Shared uint32_t foo;
-// WT-11549 - Move this elsewhere. s_all will overwrite it.
-// This example uses _Shared instead of WT_SHARED. To see WT_SHARED look at the previous commit
-#define _Shared 
 
 /*
  * Forward type declarations for internal types: END
