@@ -12,11 +12,11 @@
 #define WT_BACKGROUND_COMPACT_URI_PREFIX "file:"
 
 /*
- * __compact_server_run_chk --
+ * __background_compact_server_run_chk --
  *     Check to decide if the compact server should continue running.
  */
 static bool
-__compact_server_run_chk(WT_SESSION_IMPL *session)
+__background_compact_server_run_chk(WT_SESSION_IMPL *session)
 {
     return (FLD_ISSET(S2C(session)->server_flags, WT_CONN_SERVER_COMPACT));
 }
@@ -36,7 +36,7 @@ __background_compact_list_insert(WT_SESSION_IMPL *session, WT_BACKGROUND_COMPACT
     hash = __wt_hash_city64(compact_stat->uri, strlen(compact_stat->uri));
     bucket = hash & (conn->hash_size - 1);
 
-    TAILQ_INSERT_HEAD(&conn->background_compact.compacthash[bucket], compact_stat, hashq);
+    TAILQ_INSERT_HEAD(&conn->background_compact.stat_hash[bucket], compact_stat, hashq);
     ++conn->background_compact.file_count;
     WT_STAT_CONN_INCR(session, background_compact_files_tracked);
 }
@@ -53,7 +53,7 @@ __background_compact_list_remove(
 
     conn = S2C(session);
 
-    TAILQ_REMOVE(&conn->background_compact.compacthash[bucket], compact_stat, hashq);
+    TAILQ_REMOVE(&conn->background_compact.stat_hash[bucket], compact_stat, hashq);
     WT_ASSERT(session, conn->background_compact.file_count > 0);
     --conn->background_compact.file_count;
     WT_STAT_CONN_DECR(session, background_compact_files_tracked);
@@ -83,7 +83,7 @@ __background_compact_get_stat(WT_SESSION_IMPL *session, const char *uri, int64_t
 
     /* Find the uri in the files compacted list. */
     TAILQ_FOREACH_SAFE(
-      compact_stat, &conn->background_compact.compacthash[bucket], hashq, temp_compact_stat)
+      compact_stat, &conn->background_compact.stat_hash[bucket], hashq, temp_compact_stat)
     {
         if (strcmp(uri, compact_stat->uri) == 0) {
             /*
@@ -115,10 +115,6 @@ __background_compact_should_run(WT_SESSION_IMPL *session, const char *uri, int64
 
     conn = S2C(session);
 
-    /* The history store file should not be compacted. */
-    if (WT_STREQ(uri, WT_HS_URI))
-        return (false);
-
     /* If we haven't seen this file before we should try and compact it. */
     compact_stat = __background_compact_get_stat(session, uri, id);
     if (compact_stat == NULL)
@@ -138,6 +134,7 @@ __background_compact_should_run(WT_SESSION_IMPL *session, const char *uri, int64
       compact_stat->bytes_rewritten < conn->background_compact.bytes_rewritten_ema) {
         compact_stat->skip_count++;
         conn->background_compact.files_skipped++;
+        WT_STAT_CONN_INCR(session, background_compact_skipped);
         return (false);
     }
 
@@ -221,6 +218,7 @@ __wt_background_compact_end(WT_SESSION_IMPL *session)
         compact_stat->consecutive_unsuccessful_attempts++;
         compact_stat->prev_compact_success = false;
     } else {
+        WT_STAT_CONN_INCRV(session, background_compact_bytes_recovered, bytes_recovered);
         compact_stat->consecutive_unsuccessful_attempts = 0;
         conn->background_compact.files_compacted++;
         compact_stat->prev_compact_success = true;
@@ -233,6 +231,8 @@ __wt_background_compact_end(WT_SESSION_IMPL *session)
         conn->background_compact.bytes_rewritten_ema =
           (uint64_t)(0.1 * bm->block->compact_bytes_rewritten +
             0.9 * conn->background_compact.bytes_rewritten_ema);
+        WT_STAT_CONN_SET(
+          session, background_compact_ema, conn->background_compact.bytes_rewritten_ema);
     }
 
     return (0);
@@ -245,7 +245,7 @@ __wt_background_compact_end(WT_SESSION_IMPL *session)
  */
 static void
 __background_compact_list_cleanup(
-  WT_SESSION_IMPL *session, WT_BACKGROUND_COMPACT_CLEANUP_TYPE cleanup_type)
+  WT_SESSION_IMPL *session, WT_BACKGROUND_COMPACT_CLEANUP_STAT_TYPE cleanup_type)
 {
     WT_BACKGROUND_COMPACT_STAT *compact_stat, *temp_compact_stat;
     WT_CONNECTION_IMPL *conn;
@@ -256,7 +256,7 @@ __background_compact_list_cleanup(
 
     for (i = 0; i < conn->hash_size; i++)
         TAILQ_FOREACH_SAFE(
-          compact_stat, &conn->background_compact.compacthash[i], hashq, temp_compact_stat)
+          compact_stat, &conn->background_compact.stat_hash[i], hashq, temp_compact_stat)
         {
             if (cleanup_type == BACKGROUND_CLEANUP_ALL_STAT ||
               WT_CLOCKDIFF_SEC(cur_time, compact_stat->prev_compact_time) >
@@ -265,7 +265,7 @@ __background_compact_list_cleanup(
         }
 
     if (cleanup_type == BACKGROUND_CLEANUP_ALL_STAT)
-        __wt_free(session, conn->background_compact.compacthash);
+        __wt_free(session, conn->background_compact.stat_hash);
 }
 
 /*
@@ -308,15 +308,19 @@ __background_compact_find_next_uri(WT_SESSION_IMPL *session, WT_ITEM *uri, WT_IT
             ret = WT_NOTFOUND;
             break;
         }
-        /*
-         * Check the list of files background compact has tracked statistics for. This avoids having
-         * to open a dhandle for the file if compaction is unlikely to work efficiently on this
-         * file.
-         */
-        WT_ERR(cursor->get_value(cursor, &value));
-        WT_ERR(__wt_config_getones(session, value, "id", &id));
-        if (__background_compact_should_run(session, key, id.val))
-            break;
+
+        /* Check the file is eligible for compaction. */
+        if (__wt_compact_check_eligibility(session, key)) {
+            /*
+             * Check the list of files background compact has tracked statistics for. This avoids
+             * having to open a dhandle for the file if compaction is unlikely to work efficiently
+             * on this file.
+             */
+            WT_ERR(cursor->get_value(cursor, &value));
+            WT_ERR(__wt_config_getones(session, value, "id", &id));
+            if (__background_compact_should_run(session, key, id.val))
+                break;
+        }
     } while ((ret = cursor->next(cursor)) == 0);
     WT_ERR(ret);
 
@@ -330,11 +334,11 @@ err:
 }
 
 /*
- * __compact_server --
+ * __background_compact_server --
  *     The compact server thread.
  */
 static WT_THREAD_RET
-__compact_server(void *arg)
+__background_compact_server(void *arg)
 {
     WT_CONNECTION_IMPL *conn;
     WT_DECL_ITEM(config);
@@ -377,11 +381,11 @@ __compact_server(void *arg)
             /* Check periodically in case the signal was missed. */
             __wt_cond_wait(session, conn->background_compact.cond,
               conn->background_compact.full_iteration_wait_time * WT_MILLION,
-              __compact_server_run_chk);
+              __background_compact_server_run_chk);
         }
 
         /* Check if we're quitting or being reconfigured. */
-        if (!__compact_server_run_chk(session))
+        if (!__background_compact_server_run_chk(session))
             break;
 
         __wt_spin_lock(session, &conn->background_compact.lock);
@@ -434,7 +438,6 @@ __compact_server(void *arg)
             WT_STAT_CONN_INCR(session, background_compact_fail);
             /* The following errors are always silenced. */
             if (ret == EBUSY || ret == ENOENT || ret == ETIMEDOUT || ret == WT_ROLLBACK) {
-
                 if (ret == EBUSY && __wt_cache_stuck(session))
                     WT_STAT_CONN_INCR(session, background_compact_fail_cache_pressure);
                 else if (ret == ETIMEDOUT)
@@ -456,7 +459,8 @@ __compact_server(void *arg)
                 }
             }
             WT_ERR(ret);
-        }
+        } else
+            WT_STAT_CONN_INCR(session, background_compact_success);
     }
 
     WT_STAT_CONN_SET(session, background_compact_running, 0);
@@ -475,11 +479,11 @@ err:
 }
 
 /*
- * __wt_compact_server_create --
+ * __wt_background_compact_server_create --
  *     Start the compact thread.
  */
 int
-__wt_compact_server_create(WT_SESSION_IMPL *session)
+__wt_background_compact_server_create(WT_SESSION_IMPL *session)
 {
     WT_CONNECTION_IMPL *conn;
     uint64_t i;
@@ -493,9 +497,9 @@ __wt_compact_server_create(WT_SESSION_IMPL *session)
     /* Set first, the thread might run before we finish up. */
     FLD_SET(conn->server_flags, WT_CONN_SERVER_COMPACT);
 
-    WT_RET(__wt_calloc_def(session, conn->hash_size, &conn->background_compact.compacthash));
+    WT_RET(__wt_calloc_def(session, conn->hash_size, &conn->background_compact.stat_hash));
     for (i = 0; i < conn->hash_size; i++)
-        TAILQ_INIT(&conn->background_compact.compacthash[i]);
+        TAILQ_INIT(&conn->background_compact.stat_hash[i]);
 
     /*
      * Compaction does enough I/O it may be called upon to perform slow operations for the block
@@ -508,18 +512,19 @@ __wt_compact_server_create(WT_SESSION_IMPL *session)
 
     WT_RET(__wt_cond_alloc(session, "compact server", &conn->background_compact.cond));
 
-    WT_RET(__wt_thread_create(session, &conn->background_compact.tid, __compact_server, session));
+    WT_RET(__wt_thread_create(
+      session, &conn->background_compact.tid, __background_compact_server, session));
     conn->background_compact.tid_set = true;
 
     return (0);
 }
 
 /*
- * __wt_compact_server_destroy --
+ * __wt_background_compact_server_destroy --
  *     Destroy the background compaction server thread.
  */
 int
-__wt_compact_server_destroy(WT_SESSION_IMPL *session)
+__wt_background_compact_server_destroy(WT_SESSION_IMPL *session)
 {
     WT_CONNECTION_IMPL *conn;
     WT_DECL_RET;
@@ -545,12 +550,12 @@ __wt_compact_server_destroy(WT_SESSION_IMPL *session)
 }
 
 /*
- * __wt_compact_signal --
+ * __wt_background_compact_signal --
  *     Signal the compact thread. Return an error if the background compaction server has not
  *     processed a previous signal yet or because of an invalid configuration.
  */
 int
-__wt_compact_signal(WT_SESSION_IMPL *session, const char *config)
+__wt_background_compact_signal(WT_SESSION_IMPL *session, const char *config)
 {
     WT_CONFIG_ITEM cval;
     WT_CONNECTION_IMPL *conn;

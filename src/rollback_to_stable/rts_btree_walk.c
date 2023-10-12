@@ -133,7 +133,8 @@ __rts_btree_walk(WT_SESSION_IMPL *session, wt_timestamp_t rollback_timestamp)
     ref = NULL;
     while (
       (ret = __wt_tree_walk_custom_skip(session, &ref, __rts_btree_walk_page_skip,
-         &rollback_timestamp, WT_READ_NO_EVICT | WT_READ_VISIBLE_ALL | WT_READ_WONT_NEED)) == 0 &&
+         &rollback_timestamp,
+         WT_READ_NO_EVICT | WT_READ_VISIBLE_ALL | WT_READ_WONT_NEED | WT_READ_SEE_DELETED)) == 0 &&
       ref != NULL) {
         __wt_rts_progress_msg(session, &timer, 0, &msg_count, true);
 
@@ -208,7 +209,7 @@ __wt_rts_btree_walk_btree_apply(
         WT_RET_NOTFOUND_OK(ret);
 
         if (ret == 0)
-            __wt_verbose_multi(session, WT_VERB_RECOVERY_RTS(session),
+            __wt_verbose_level_multi(session, WT_VERB_RECOVERY_RTS(session), WT_VERBOSE_DEBUG_2,
               WT_RTS_VERB_TAG_TREE_OBJECT_LOG
               "btree object found with newest_start_durable_timestamp=%s, "
               "newest_stop_durable_timestamp=%s, "
@@ -283,7 +284,7 @@ __wt_rts_btree_walk_btree_apply(
 
         WT_ERR(__wt_rts_btree_walk_btree(session, rollback_timestamp));
     } else
-        __wt_verbose_multi(session, WT_VERB_RECOVERY_RTS(session),
+        __wt_verbose_level_multi(session, WT_VERB_RECOVERY_RTS(session), WT_VERBOSE_DEBUG_2,
           WT_RTS_VERB_TAG_TREE_SKIP
           "%s: tree skipped with durable_timestamp=%s and stable_timestamp=%s or txnid=%" PRIu64
           " has_prepared_updates=%s, txnid=%" PRIu64 " > recovery_checkpoint_snap_min=%" PRIu64
@@ -306,9 +307,6 @@ __wt_rts_btree_walk_btree_apply(
       !F_ISSET(S2C(session), WT_CONN_IN_MEMORY)) {
         WT_ERR(__wt_config_getones(session, config, "id", &cval));
         btree_id = (uint32_t)cval.val;
-        __wt_verbose_multi(session, WT_VERB_RECOVERY_RTS(session),
-          WT_RTS_VERB_TAG_HS_TRUNCATING "truncating history store entries for tree with id=%u",
-          btree_id);
         WT_ERR(__wt_rts_history_btree_hs_truncate(session, btree_id));
     }
 
