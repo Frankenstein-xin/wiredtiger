@@ -315,7 +315,7 @@ __wt_cache_page_inmem_incr(WT_SESSION_IMPL *session, WT_PAGE *page, size_t size)
         if (!WT_PAGE_IS_INTERNAL(page) && !btree->lsm_primary) {
             (void)__wt_atomic_add64(&cache->bytes_updates, size);
             (void)__wt_atomic_add64(&btree->bytes_updates, size);
-            (void)__wt_atomic_addsize(&page->modify->bytes_updates, size);
+            (void)__wt_atomic_addvsize(&page->modify->bytes_updates, size);
         }
         if (__wt_page_is_modified(page)) {
             if (WT_PAGE_IS_INTERNAL(page)) {
@@ -325,7 +325,7 @@ __wt_cache_page_inmem_incr(WT_SESSION_IMPL *session, WT_PAGE *page, size_t size)
                 (void)__wt_atomic_add64(&cache->bytes_dirty_leaf, size);
                 (void)__wt_atomic_add64(&btree->bytes_dirty_leaf, size);
             }
-            (void)__wt_atomic_addsize(&page->modify->bytes_dirty, size);
+            (void)__wt_atomic_addvsize(&page->modify->bytes_dirty, size);
         }
     }
 }
@@ -419,7 +419,7 @@ __wt_cache_page_byte_dirty_decr(WT_SESSION_IMPL *session, WT_PAGE *page, size_t 
          */
         WT_ORDERED_READ(orig, page->modify->bytes_dirty);
         decr = WT_MIN(size, orig);
-        if (__wt_atomic_cassize(&page->modify->bytes_dirty, orig, orig - decr))
+        if (__wt_atomic_casvsize(&page->modify->bytes_dirty, orig, orig - decr))
             break;
     }
 
@@ -461,7 +461,7 @@ __wt_cache_page_byte_updates_decr(WT_SESSION_IMPL *session, WT_PAGE *page, size_
     for (i = 0; i < 5; ++i) {
         WT_ORDERED_READ(orig, page->modify->bytes_updates);
         decr = WT_MIN(size, orig);
-        if (__wt_atomic_cassize(&page->modify->bytes_updates, orig, orig - decr))
+        if (__wt_atomic_casvsize(&page->modify->bytes_updates, orig, orig - decr))
             break;
     }
 
@@ -540,7 +540,7 @@ __wt_cache_dirty_incr(WT_SESSION_IMPL *session, WT_PAGE *page)
     }
     (void)__wt_atomic_add64(&cache->bytes_dirty_total, size);
     (void)__wt_atomic_add64(&btree->bytes_dirty_total, size);
-    (void)__wt_atomic_addsize(&page->modify->bytes_dirty, size);
+    (void)__wt_atomic_addvsize(&page->modify->bytes_dirty, size);
 }
 
 /*
@@ -720,7 +720,7 @@ __wt_page_only_modify_set(WT_SESSION_IMPL *session, WT_PAGE *page)
      * threads, so the counter will never approach the point where it would wrap.
      */
     if (page->modify->page_state < WT_PAGE_DIRTY &&
-      __wt_atomic_add32(&page->modify->page_state, 1) == WT_PAGE_DIRTY_FIRST) {
+      __wt_atomic_addv32(&page->modify->page_state, 1) == WT_PAGE_DIRTY_FIRST) {
         __wt_cache_dirty_incr(session, page);
         /*
          * In the event we dirty a page which is flagged for eviction soon, we update its read
@@ -1347,7 +1347,7 @@ __wt_row_leaf_key_instantiate(WT_SESSION_IMPL *session, WT_PAGE *page)
      */
     if (F_ISSET_ATOMIC_16(page, WT_PAGE_BUILD_KEYS))
         return (0);
-    F_SET_ATOMIC_16(page, WT_PAGE_BUILD_KEYS);
+    F_SET_ATOMIC_V16(page, WT_PAGE_BUILD_KEYS);
 
     /* Walk the keys, making sure there's something easy to work with periodically. */
     skip = 0;

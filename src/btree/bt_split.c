@@ -1648,7 +1648,7 @@ __split_multi_inmem_fail(WT_SESSION_IMPL *session, WT_PAGE *orig, WT_MULTI *mult
      */
     if (ref != NULL) {
         if (ref->page != NULL)
-            F_SET_ATOMIC_16(ref->page, WT_PAGE_UPDATE_IGNORE);
+            F_SET_ATOMIC_V16(ref->page, WT_PAGE_UPDATE_IGNORE);
         __wt_free_ref(session, ref, orig->type, true);
     }
 }
@@ -1783,7 +1783,7 @@ __split_insert(WT_SESSION_IMPL *session, WT_REF *ref)
       "Attempted to split a page that cannot be split");
     WT_ASSERT_ALWAYS(session, __wt_page_is_modified(page), "Attempted to split a clean page");
 
-    F_SET_ATOMIC_16(page, WT_PAGE_SPLIT_INSERT); /* Only split in-memory once. */
+    F_SET_ATOMIC_V16(page, WT_PAGE_SPLIT_INSERT); /* Only split in-memory once. */
 
     /* Find the last item on the page. */
     if (type == WT_PAGE_ROW_LEAF)
@@ -2283,7 +2283,7 @@ __wt_split_rewrite(WT_SESSION_IMPL *session, WT_REF *ref, WT_MULTI *multi)
      */
     __wt_page_modify_clear(session, page);
     if (!F_ISSET(S2C(session)->cache, WT_CACHE_EVICT_SCRUB) || multi->supd_restore)
-        F_SET_ATOMIC_16(page, WT_PAGE_EVICT_NO_PROGRESS);
+        F_SET_ATOMIC_V16(page, WT_PAGE_EVICT_NO_PROGRESS);
     __wt_ref_out(session, ref);
 
     /* Swap the new page into place. */

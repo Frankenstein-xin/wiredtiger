@@ -324,8 +324,8 @@ struct __wt_page_modify {
     uint64_t update_txn;
 
     /* Dirty bytes added to the cache. */
-    wt_shared size_t bytes_dirty;
-    wt_shared size_t bytes_updates;
+    volatile size_t bytes_dirty;
+    volatile size_t bytes_updates;
 
     /*
      * When pages are reconciled, the result is one or more replacement blocks. A replacement block
@@ -390,7 +390,8 @@ struct __wt_page_modify {
              * page, but gaps created in the namespace by truncate operations can result in the
              * append lists of other pages becoming populated.
              */
-            wt_shared WT_INSERT_HEAD **append;
+            // FIXME-WT-10861 - check volatile placement
+            WT_INSERT_HEAD **append;
 
             /*
              * Updated items in column-stores: variable-length RLE entries can expand to multiple
@@ -399,7 +400,8 @@ struct __wt_page_modify {
              * there can be a very large number of bits on a single page, and the cost of the
              * WT_UPDATE array would be huge.
              */
-            wt_shared WT_INSERT_HEAD **update;
+            // FIXME-WT-10861 - check volatile placement
+            WT_INSERT_HEAD **update;
 
             /*
              * Split-saved last column-store page record. If a fixed-length column-store page is
@@ -417,10 +419,12 @@ struct __wt_page_modify {
 #define mod_col_split_recno u2.column_leaf.split_recno
         struct {
             /* Inserted items for row-store. */
-            wt_shared WT_INSERT_HEAD **insert;
+            // FIXME-WT-10861 - check volatile placement
+            WT_INSERT_HEAD **insert;
 
             /* Updated items for row-stores. */
-            wt_shared WT_UPDATE **update;
+            // FIXME-WT-10861 - check volatile placement
+            WT_UPDATE **update;
         } row_leaf;
 #undef mod_row_insert
 #define mod_row_insert u2.row_leaf.insert
@@ -461,7 +465,7 @@ struct __wt_page_modify {
 #define WT_PAGE_CLEAN 0
 #define WT_PAGE_DIRTY_FIRST 1
 #define WT_PAGE_DIRTY 2
-    wt_shared uint32_t page_state;
+    volatile uint32_t page_state;
 
 #define WT_PM_REC_EMPTY 1      /* Reconciliation: no replacement */
 #define WT_PM_REC_MULTIBLOCK 2 /* Reconciliation: multiple blocks */
@@ -499,7 +503,7 @@ WT_PACKED_STRUCT_END
  */
 struct __wt_page_index {
     uint32_t entries;
-    wt_shared uint32_t deleted_entries;
+    volatile uint32_t deleted_entries;
     WT_REF **index;
 };
 
@@ -590,7 +594,7 @@ struct __wt_page {
             WT_REF *parent_ref; /* Parent reference */
             uint64_t split_gen; /* Generation of last split */
 
-            wt_shared WT_PAGE_INDEX *volatile __index; /* Collated children */
+            WT_PAGE_INDEX *volatile __index; /* Collated children */
         } intl;
 #undef pg_intl_parent_ref
 #define pg_intl_parent_ref u.intl.parent_ref
@@ -700,7 +704,7 @@ struct __wt_page {
 #define WT_PAGE_SPLIT_INSERT 0x200u       /* A leaf page was split for append */
 #define WT_PAGE_UPDATE_IGNORE 0x400u      /* Ignore updates on page discard */
                                           /* AUTOMATIC FLAG VALUE GENERATION STOP 16 */
-    wt_shared uint16_t flags_atomic;      /* Atomic flags, use F_*_ATOMIC_16 */
+    volatile uint16_t flags_atomic;      /* Atomic flags, use F_*_ATOMIC_16 */
 
 #define WT_PAGE_IS_INTERNAL(page) \
     ((page)->type == WT_PAGE_COL_INT || (page)->type == WT_PAGE_ROW_INT)

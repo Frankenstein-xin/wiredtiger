@@ -147,8 +147,8 @@ static inline void
 __evict_list_clear(WT_SESSION_IMPL *session, WT_EVICT_ENTRY *e)
 {
     if (e->ref != NULL) {
-        WT_ASSERT(session, F_ISSET_ATOMIC_16(e->ref->page, WT_PAGE_EVICT_LRU));
-        F_CLR_ATOMIC_16(e->ref->page, WT_PAGE_EVICT_LRU | WT_PAGE_EVICT_LRU_URGENT);
+        WT_ASSERT(session, F_ISSET_ATOMIC_V16(e->ref->page, WT_PAGE_EVICT_LRU));
+        F_CLR_ATOMIC_V16(e->ref->page, WT_PAGE_EVICT_LRU | WT_PAGE_EVICT_LRU_URGENT);
     }
     e->ref = NULL;
     e->btree = WT_DEBUG_POINT;
@@ -1634,7 +1634,7 @@ __evict_push_candidate(
     orig_flags = new_flags = ref->page->flags_atomic;
     FLD_SET(new_flags, WT_PAGE_EVICT_LRU);
     if (orig_flags == new_flags ||
-      !__wt_atomic_cas16(&ref->page->flags_atomic, orig_flags, new_flags))
+      !__wt_atomic_casv16(&ref->page->flags_atomic, orig_flags, new_flags))
         return (false);
 
     /* Keep track of the maximum slot we are using. */

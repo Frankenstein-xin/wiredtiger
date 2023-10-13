@@ -247,7 +247,7 @@ __blkcache_eviction_thread(void *arg)
                     __blkcache_free(session, blkcache_item->data);
                     __blkcache_update_ref_histogram(
                       session, blkcache_item, WT_BLKCACHE_RM_EVICTION);
-                    (void)__wt_atomic_sub64(&blkcache->bytes_used, blkcache_item->data_size);
+                    (void)__wt_atomic_subv64(&blkcache->bytes_used, blkcache_item->data_size);
 
                     /*
                      * Update the number of removals because it is used to estimate the overhead,
@@ -477,7 +477,7 @@ __wt_blkcache_put(
 
     TAILQ_INSERT_HEAD(&blkcache->hash[bucket], blkcache_store, hashq);
 
-    (void)__wt_atomic_add64(&blkcache->bytes_used, data->size);
+    (void)__wt_atomic_addv64(&blkcache->bytes_used, data->size);
     blkcache->inserts++;
 
     __wt_spin_unlock(session, &blkcache->hash_locks[bucket]);
@@ -525,7 +525,7 @@ __wt_blkcache_remove(WT_SESSION_IMPL *session, const uint8_t *addr, size_t addr_
             TAILQ_REMOVE(&blkcache->hash[bucket], blkcache_item, hashq);
             __blkcache_update_ref_histogram(session, blkcache_item, WT_BLKCACHE_RM_FREE);
             __wt_spin_unlock(session, &blkcache->hash_locks[bucket]);
-            (void)__wt_atomic_sub64(&blkcache->bytes_used, blkcache_item->data_size);
+            (void)__wt_atomic_subv64(&blkcache->bytes_used, blkcache_item->data_size);
             WT_STAT_CONN_DECRV(session, block_cache_bytes, blkcache_item->data_size);
             /*
              * The block might be in use by another thread, wait for it to be released before
@@ -654,7 +654,7 @@ __wt_blkcache_destroy(WT_SESSION_IMPL *session)
              */
             __blkcache_free(session, blkcache_item->data);
             __blkcache_update_ref_histogram(session, blkcache_item, WT_BLKCACHE_RM_EXIT);
-            (void)__wt_atomic_sub64(&blkcache->bytes_used, blkcache_item->data_size);
+            (void)__wt_atomic_subv64(&blkcache->bytes_used, blkcache_item->data_size);
             __wt_free(session, blkcache_item);
         }
         __wt_spin_unlock(session, &blkcache->hash_locks[i]);

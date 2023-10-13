@@ -155,7 +155,7 @@ __chunkcache_alloc(WT_SESSION_IMPL *session, WT_CHUNKCACHE_CHUNK *chunk)
     }
 
     /* Increment chunk's disk usage and update statistics. */
-    __wt_atomic_add64(&chunkcache->bytes_used, chunk->chunk_size);
+    __wt_atomic_addv64(&chunkcache->bytes_used, chunk->chunk_size);
     WT_STAT_CONN_INCR(session, chunk_cache_chunks_inuse);
     WT_STAT_CONN_INCRV(session, chunk_cache_bytes_inuse, chunk->chunk_size);
     if (__name_in_pinned_list(session, chunk->hash_id.objectname)) {
@@ -270,7 +270,7 @@ __chunkcache_free_chunk(WT_SESSION_IMPL *session, WT_CHUNKCACHE_CHUNK *chunk)
     chunkcache = &S2C(session)->chunkcache;
 
     /* Decrement chunk's disk usage and update statistics. */
-    (void)__wt_atomic_sub64(&chunkcache->bytes_used, chunk->chunk_size);
+    (void)__wt_atomic_subv64(&chunkcache->bytes_used, chunk->chunk_size);
     WT_STAT_CONN_DECR(session, chunk_cache_chunks_inuse);
     WT_STAT_CONN_DECRV(session, chunk_cache_bytes_inuse, chunk->chunk_size);
     /* We can fail when reading chunks, and some are pinned. Unset the pinned stats here. */

@@ -108,6 +108,7 @@
 WT_ATOMIC_CAS_FUNC(8, uint8_t *vp, uint8_t old, uint8_t newv)
 WT_ATOMIC_CAS_FUNC(v8, volatile uint8_t *vp, uint8_t old, volatile uint8_t newv)
 WT_ATOMIC_CAS_FUNC(16, uint16_t *vp, uint16_t old, uint16_t newv)
+WT_ATOMIC_CAS_FUNC(v16, volatile uint16_t *vp, uint16_t old, volatile uint16_t newv)
 WT_ATOMIC_CAS_FUNC(32, uint32_t *vp, uint32_t old, uint32_t newv)
 WT_ATOMIC_CAS_FUNC(v32, volatile uint32_t *vp, uint32_t old, volatile uint32_t newv)
 WT_ATOMIC_CAS_FUNC(i32, int32_t *vp, int32_t old, int32_t newv)
@@ -117,6 +118,7 @@ WT_ATOMIC_CAS_FUNC(v64, volatile uint64_t *vp, uint64_t old, volatile uint64_t n
 WT_ATOMIC_CAS_FUNC(i64, int64_t *vp, int64_t old, int64_t newv)
 WT_ATOMIC_CAS_FUNC(iv64, volatile int64_t *vp, int64_t old, volatile int64_t newv)
 WT_ATOMIC_CAS_FUNC(size, size_t *vp, size_t old, size_t newv)
+WT_ATOMIC_CAS_FUNC(vsize, volatile size_t *vp, size_t old, volatile size_t newv)
 
 /*
  * __wt_atomic_cas_ptr --
@@ -153,6 +155,7 @@ WT_ATOMIC_FUNC(v64, uint64_t, volatile uint64_t *vp, volatile uint64_t v)
 WT_ATOMIC_FUNC(i64, int64_t, int64_t *vp, int64_t v)
 WT_ATOMIC_FUNC(iv64, int64_t, volatile int64_t *vp, volatile int64_t v)
 WT_ATOMIC_FUNC(size, size_t, size_t *vp, size_t v)
+WT_ATOMIC_FUNC(vsize, size_t, volatile size_t *vp, volatile size_t v)
 
 /* Compile read-write barrier */
 #define WT_BARRIER() __asm__ volatile("" ::: "memory")

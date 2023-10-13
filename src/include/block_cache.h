@@ -54,9 +54,9 @@ struct __wt_blkcache_item {
      * been reused or for blocks that were reused in the past but lost their appeal. In this sense,
      * this counter is a metric combining frequency and recency, and hence its name.
      */
-    wt_shared int32_t freq_rec_counter;
+    volatile int32_t freq_rec_counter;
 
-    wt_shared uint32_t ref_count; /* References */
+    volatile uint32_t ref_count; /* References */
 
     uint32_t fid;      /* File ID */
     uint8_t addr_size; /* Address cookie */
@@ -74,7 +74,7 @@ struct __wt_blkcache {
     WT_SPINLOCK *hash_locks;
 
     wt_thread_t evict_thread_tid;
-    wt_shared volatile bool blkcache_exiting; /* If destroying the cache */
+    volatile bool blkcache_exiting; /* If destroying the cache */
     int32_t evict_aggressive;                 /* Seconds an unused block stays in the cache */
 
     bool cache_on_checkpoint; /* Don't cache blocks written by checkpoints */
@@ -105,7 +105,7 @@ struct __wt_blkcache {
 
     u_int hash_size;               /* Number of block cache hash buckets */
     u_int type;                    /* Type of block cache (NVRAM or DRAM) */
-    wt_shared uint64_t bytes_used; /* Bytes in the block cache */
+    volatile uint64_t bytes_used; /* Bytes in the block cache */
     uint64_t max_bytes;            /* Block cache size */
     uint64_t system_ram;           /* Configured size of system RAM */
 

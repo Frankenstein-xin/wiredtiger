@@ -109,6 +109,35 @@
 #define F_SET_ATOMIC_16(p, mask) FLD_SET_ATOMIC_16((p)->flags_atomic, mask)
 
 /*
+ * Atomic volatile versions of the flag set/clear macros.
+ */
+#define FLD_ISSET_ATOMIC_V16(field, mask) ((field) & (uint16_t)(mask))
+
+#define FLD_SET_ATOMIC_V16(field, mask)                                             \
+    do {                                                                           \
+        uint16_t __orig;                                                           \
+        if (FLD_ISSET_ATOMIC_V16((field), (mask)))                                  \
+            break;                                                                 \
+        do {                                                                       \
+            __orig = (field);                                                      \
+        } while (!__wt_atomic_casv16(&(field), __orig, __orig | (uint16_t)(mask))); \
+    } while (0)
+
+#define FLD_CLR_ATOMIC_V16(field, mask)                                                \
+    do {                                                                              \
+        uint16_t __orig;                                                              \
+        if (!FLD_ISSET_ATOMIC_V16((field), (mask)))                                    \
+            break;                                                                    \
+        do {                                                                          \
+            __orig = (field);                                                         \
+        } while (!__wt_atomic_casv16(&(field), __orig, __orig & (uint16_t)(~(mask)))); \
+    } while (0)
+
+#define F_ISSET_ATOMIC_V16(p, mask) FLD_ISSET_ATOMIC_V16((p)->flags_atomic, mask)
+#define F_CLR_ATOMIC_V16(p, mask) FLD_CLR_ATOMIC_V16((p)->flags_atomic, mask)
+#define F_SET_ATOMIC_V16(p, mask) FLD_SET_ATOMIC_V16((p)->flags_atomic, mask)
+
+/*
  * Cache line alignment.
  */
 #if defined(__PPC64__) || defined(PPC64)

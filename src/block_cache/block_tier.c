@@ -122,7 +122,7 @@ __blkcache_find_open_handle(WT_BM *bm, uint32_t objectid, bool reading, WT_BLOCK
             }
 
     if (reading && *blockp != NULL)
-        __wt_atomic_add32(&(*blockp)->read_count, 1);
+        __wt_atomic_addv32(&(*blockp)->read_count, 1);
 }
 
 /*
@@ -168,7 +168,7 @@ __wt_blkcache_get_handle(
           session, &bm->handle_array_allocated, bm->handle_array_next + 1, &bm->handle_array));
 
         if (reading)
-            __wt_atomic_add32(&new_handle->read_count, 1);
+            __wt_atomic_addv32(&new_handle->read_count, 1);
 
         bm->handle_array[bm->handle_array_next++] = new_handle;
         *blockp = new_handle;
@@ -192,5 +192,5 @@ void
 __wt_blkcache_release_handle(WT_SESSION_IMPL *session, WT_BLOCK *block)
 {
     WT_ASSERT(session, block->read_count > 0);
-    __wt_atomic_sub32(&block->read_count, 1);
+    __wt_atomic_subv32(&block->read_count, 1);
 }
