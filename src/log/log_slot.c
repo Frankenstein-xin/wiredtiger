@@ -210,7 +210,7 @@ __log_slot_dirty_max_check(WT_SESSION_IMPL *session, WT_LOGSLOT *slot)
     if (current->l.file == last_sync->l.file && current->l.offset > last_sync->l.offset &&
       current->l.offset - last_sync->l.offset > conn->log_dirty_max) {
         /* Schedule the asynchronous sync */
-        F_SET_ATOMIC_16(slot, WT_SLOT_SYNC_DIRTY);
+        F_SET_ATOMIC_V16(slot, WT_SLOT_SYNC_DIRTY);
         WT_ASSIGN_LSN(&log->dirty_lsn, &slot->slot_release_lsn);
     }
 }
@@ -451,7 +451,7 @@ __wt_log_slot_init(WT_SESSION_IMPL *session, bool alloc)
         for (i = 0; i < WT_SLOT_POOL; i++) {
             F_SET(&log->slot_pool[i].slot_buf, WT_ITEM_ALIGNED);
             WT_ERR(__wt_buf_init(session, &log->slot_pool[i].slot_buf, log->slot_buf_size));
-            F_SET_ATOMIC_16(&log->slot_pool[i], WT_SLOT_INIT_FLAGS);
+            F_SET_ATOMIC_V16(&log->slot_pool[i], WT_SLOT_INIT_FLAGS);
         }
         WT_STAT_CONN_SET(session, log_buffer_size, log->slot_buf_size * WT_SLOT_POOL);
     }
@@ -616,11 +616,11 @@ __wt_log_slot_join(WT_SESSION_IMPL *session, uint64_t mysize, uint32_t flags, WT
             WT_STAT_CONN_INCR(session, log_slot_yield_sleep);
     }
     if (LF_ISSET(WT_LOG_DSYNC | WT_LOG_FSYNC))
-        F_SET_ATOMIC_16(slot, WT_SLOT_SYNC_DIR);
+        F_SET_ATOMIC_V16(slot, WT_SLOT_SYNC_DIR);
     if (LF_ISSET(WT_LOG_FLUSH))
-        F_SET_ATOMIC_16(slot, WT_SLOT_FLUSH);
+        F_SET_ATOMIC_V16(slot, WT_SLOT_FLUSH);
     if (LF_ISSET(WT_LOG_FSYNC))
-        F_SET_ATOMIC_16(slot, WT_SLOT_SYNC);
+        F_SET_ATOMIC_V16(slot, WT_SLOT_SYNC);
     if (F_ISSET(myslot, WT_MYSLOT_UNBUFFERED)) {
         WT_ASSERT(session, slot->slot_unbuffered == 0);
         WT_STAT_CONN_INCR(session, log_slot_unbuffered);

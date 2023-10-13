@@ -52,7 +52,7 @@ __lsm_copy_chunks(
      * Mark each chunk as active, so we don't drop it until after we know it's safe.
      */
     for (i = 0; i < nchunks; i++)
-        (void)__wt_atomic_add32(&cookie->chunk_array[i]->refcnt, 1);
+        (void)__wt_atomic_addv32(&cookie->chunk_array[i]->refcnt, 1);
 
 err:
     __wt_lsm_tree_readunlock(session, lsm_tree);
@@ -118,7 +118,7 @@ __wt_lsm_get_chunk_to_flush(
           "Flush%s: return chunk %" PRIu32 " of %" PRIu32 ": %s", force ? " w/ force" : "", i,
           lsm_tree->nchunks, chunk->uri);
 
-        (void)__wt_atomic_add32(&chunk->refcnt, 1);
+        (void)__wt_atomic_addv32(&chunk->refcnt, 1);
     }
 
 err:
@@ -141,7 +141,7 @@ __lsm_unpin_chunks(WT_SESSION_IMPL *session, WT_LSM_WORKER_COOKIE *cookie)
         if (cookie->chunk_array[i] == NULL)
             continue;
         WT_ASSERT(session, cookie->chunk_array[i]->refcnt > 0);
-        (void)__wt_atomic_sub32(&cookie->chunk_array[i]->refcnt, 1);
+        (void)__wt_atomic_subv32(&cookie->chunk_array[i]->refcnt, 1);
     }
     /* Ensure subsequent calls don't double decrement. */
     cookie->nchunks = 0;
@@ -214,7 +214,7 @@ __wt_lsm_work_bloom(WT_SESSION_IMPL *session, WT_LSM_TREE *lsm_tree)
          * See if we win the race to switch on the "busy" flag and recheck that the chunk still
          * needs a Bloom filter.
          */
-        if (__wt_atomic_cas32(&chunk->bloom_busy, 0, 1)) {
+        if (__wt_atomic_casv32(&chunk->bloom_busy, 0, 1)) {
             if (!F_ISSET(chunk, WT_LSM_CHUNK_BLOOM)) {
                 ret = __lsm_bloom_create(session, lsm_tree, chunk, i);
                 /*
@@ -301,7 +301,7 @@ __lsm_set_chunk_evictable(WT_SESSION_IMPL *session, WT_LSM_CHUNK *chunk, bool ne
         return (0);
 
     /* See if we win the race to enable eviction. */
-    if (__wt_atomic_cas32(&chunk->evict_enabled, 0, 1)) {
+    if (__wt_atomic_casv32(&chunk->evict_enabled, 0, 1)) {
         if (need_handle)
             WT_RET(__wt_session_get_dhandle(session, chunk->uri, NULL, NULL, 0));
         btree = session->dhandle->handle;
@@ -386,7 +386,7 @@ __wt_lsm_checkpoint_chunk(WT_SESSION_IMPL *session, WT_LSM_TREE *lsm_tree, WT_LS
           session, WT_VERB_LSM, "LSM worker %s: running transaction, return", chunk->uri);
         return (0);
     }
-    if (!__wt_atomic_cas8(&chunk->flushing, 0, 1))
+    if (!__wt_atomic_casv8(&chunk->flushing, 0, 1))
         return (0);
     flush_set = true;
 
@@ -774,7 +774,7 @@ __wt_lsm_free_chunks(WT_SESSION_IMPL *session, WT_LSM_TREE *lsm_tree)
     /*
      * Make sure only a single thread is freeing the old chunk array at any time.
      */
-    if (!__wt_atomic_cas32(&lsm_tree->freeing_old_chunks, 0, 1))
+    if (!__wt_atomic_casv32(&lsm_tree->freeing_old_chunks, 0, 1))
         return (0);
 
     ret = __lsm_free_chunks(session, lsm_tree);

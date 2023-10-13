@@ -149,7 +149,7 @@ __wt_lsm_tree_close_all(WT_SESSION_IMPL *session)
          * do the close. We could get the tree here, but we short circuit instead. There is no need
          * to decrement the reference count since discard is unconditional.
          */
-        (void)__wt_atomic_add32(&lsm_tree->refcnt, 1);
+        (void)__wt_atomic_addv32(&lsm_tree->refcnt, 1);
         __lsm_tree_close(session, lsm_tree, true);
         WT_TRET(__lsm_tree_discard(session, lsm_tree, true));
     }
@@ -395,14 +395,14 @@ __lsm_tree_find(WT_SESSION_IMPL *session, const char *uri, bool exclusive, WT_LS
                  * Drain the work queue before checking for open cursors - otherwise we can generate
                  * spurious busy returns.
                  */
-                (void)__wt_atomic_add32(&lsm_tree->refcnt, 1);
+                (void)__wt_atomic_addv32(&lsm_tree->refcnt, 1);
                 __lsm_tree_close(session, lsm_tree, false);
                 if (lsm_tree->refcnt != 1) {
                     __wt_lsm_tree_release(session, lsm_tree);
                     return (__wt_set_return(session, EBUSY));
                 }
             } else {
-                (void)__wt_atomic_add32(&lsm_tree->refcnt, 1);
+                (void)__wt_atomic_addv32(&lsm_tree->refcnt, 1);
 
                 /*
                  * We got a reference, check if an exclusive lock beat us to it.
@@ -555,7 +555,7 @@ __wt_lsm_tree_release(WT_SESSION_IMPL *session, WT_LSM_TREE *lsm_tree)
         lsm_tree->active = true;
         lsm_tree->excl_session = NULL;
     }
-    (void)__wt_atomic_sub32(&lsm_tree->refcnt, 1);
+    (void)__wt_atomic_subv32(&lsm_tree->refcnt, 1);
 }
 
 /* How aggressively to ramp up or down throttle due to level 0 merging */
@@ -726,7 +726,7 @@ __wt_lsm_tree_switch(WT_SESSION_IMPL *session, WT_LSM_TREE *lsm_tree)
     /* Update the throttle time. */
     __wt_lsm_tree_throttle(session, lsm_tree, false);
 
-    new_id = __wt_atomic_add32(&lsm_tree->last, 1);
+    new_id = __wt_atomic_addv32(&lsm_tree->last, 1);
 
     WT_ERR(__wt_realloc_def(session, &lsm_tree->chunk_alloc, nchunks + 1, &lsm_tree->chunk));
 
@@ -969,7 +969,7 @@ __wt_lsm_tree_truncate(WT_SESSION_IMPL *session, const char *name, const char *c
 
     /* Create the new chunk. */
     WT_ERR(__wt_calloc_one(session, &chunk));
-    chunk->id = __wt_atomic_add32(&lsm_tree->last, 1);
+    chunk->id = __wt_atomic_addv32(&lsm_tree->last, 1);
     WT_ERR(__wt_lsm_tree_setup_chunk(session, lsm_tree, chunk));
 
     /* Mark all chunks old. */
@@ -1149,7 +1149,7 @@ __wt_lsm_compact(WT_SESSION_IMPL *session, const char *name, bool *skipp)
          * If we have a chunk, we want to look for it to be on-disk. So we need to add a reference
          * to keep it available.
          */
-        (void)__wt_atomic_add32(&chunk->refcnt, 1);
+        (void)__wt_atomic_addv32(&chunk->refcnt, 1);
         ref = true;
     }
 
@@ -1190,7 +1190,7 @@ __wt_lsm_compact(WT_SESSION_IMPL *session, const char *name, bool *skipp)
                 __wt_verbose_debug2(session, WT_VERB_LSM,
                   "Compact flush done %s chunk %" PRIu32 ". Start compacting progress %" PRIu64,
                   name, chunk->id, lsm_tree->merge_progressing);
-                (void)__wt_atomic_sub32(&chunk->refcnt, 1);
+                (void)__wt_atomic_subv32(&chunk->refcnt, 1);
                 flushing = ref = false;
                 compacting = true;
                 F_SET(lsm_tree, WT_LSM_TREE_COMPACTING);
@@ -1241,7 +1241,7 @@ __wt_lsm_compact(WT_SESSION_IMPL *session, const char *name, bool *skipp)
 err:
     /* Ensure anything we set is cleared. */
     if (ref)
-        (void)__wt_atomic_sub32(&chunk->refcnt, 1);
+        (void)__wt_atomic_subv32(&chunk->refcnt, 1);
     if (compacting) {
         F_CLR(lsm_tree, WT_LSM_TREE_COMPACTING);
         lsm_tree->merge_aggressiveness = 0;

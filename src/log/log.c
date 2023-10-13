@@ -1369,7 +1369,7 @@ __wt_log_acquire(WT_SESSION_IMPL *session, uint64_t recsize, WT_LOGSLOT *slot)
         WT_RET(__log_newfile(session, false, &created_log));
         F_CLR(log, WT_LOG_FORCE_NEWFILE);
         if (log->log_close_fh != NULL)
-            F_SET_ATOMIC_16(slot, WT_SLOT_CLOSEFH);
+            F_SET_ATOMIC_V16(slot, WT_SLOT_CLOSEFH);
     }
 
     /*
@@ -1545,7 +1545,7 @@ __wt_log_allocfile(WT_SESSION_IMPL *session, uint32_t lognum, const char *dest)
      */
     WT_RET(__wt_scr_alloc(session, 0, &from_path));
     WT_ERR(__wt_scr_alloc(session, 0, &to_path));
-    tmp_id = __wt_atomic_add32(&log->tmp_fileid, 1);
+    tmp_id = __wt_atomic_addv32(&log->tmp_fileid, 1);
     WT_ERR(__wt_log_filename(session, tmp_id, WT_LOG_TMPNAME, from_path));
     WT_ERR(__wt_log_filename(session, lognum, dest, to_path));
     __wt_spin_lock(session, &log->log_fs_lock);
@@ -1963,7 +1963,7 @@ __wt_log_release(WT_SESSION_IMPL *session, WT_LOGSLOT *slot, bool *freep)
 
     WT_ASSERT(session, slot != log->active_slot);
     __wt_cond_signal(session, log->log_write_cond);
-    F_CLR_ATOMIC_16(slot, WT_SLOT_FLUSH);
+    F_CLR_ATOMIC_V16(slot, WT_SLOT_FLUSH);
 
     /*
      * Signal the close thread if needed.
@@ -2017,7 +2017,7 @@ __wt_log_release(WT_SESSION_IMPL *session, WT_LOGSLOT *slot, bool *freep)
         /*
          * Clear the flags before leaving the loop.
          */
-        F_CLR_ATOMIC_16(slot, WT_SLOT_SYNC | WT_SLOT_SYNC_DIR);
+        F_CLR_ATOMIC_V16(slot, WT_SLOT_SYNC | WT_SLOT_SYNC_DIR);
         __wt_spin_unlock(session, &log->log_sync_lock);
     }
 err:

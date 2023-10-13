@@ -366,7 +366,7 @@ __wt_lsm_merge(WT_SESSION_IMPL *session, WT_LSM_TREE *lsm_tree, u_int id)
     locked = false;
 
     /* Allocate an ID for the merge. */
-    dest_id = __wt_atomic_add32(&lsm_tree->last, 1);
+    dest_id = __wt_atomic_addv32(&lsm_tree->last, 1);
 
     /*
      * We only want to do the chunk loop if we're running with verbose, so we wrap these statements
@@ -460,7 +460,7 @@ __wt_lsm_merge(WT_SESSION_IMPL *session, WT_LSM_TREE *lsm_tree, u_int id)
      * Closing and syncing the files can take a while. Set the merge_syncing field so that compact
      * knows it is still in progress.
      */
-    (void)__wt_atomic_add32(&lsm_tree->merge_syncing, 1);
+    (void)__wt_atomic_addv32(&lsm_tree->merge_syncing, 1);
     in_sync = true;
     /*
      * We've successfully created the new chunk. Now install it. We need to ensure that the NO_CACHE
@@ -507,7 +507,7 @@ __wt_lsm_merge(WT_SESSION_IMPL *session, WT_LSM_TREE *lsm_tree, u_int id)
     WT_TRET(dest->close(dest));
     dest = NULL;
     ++lsm_tree->merge_progressing;
-    (void)__wt_atomic_sub32(&lsm_tree->merge_syncing, 1);
+    (void)__wt_atomic_subv32(&lsm_tree->merge_syncing, 1);
     in_sync = false;
     WT_ERR_NOTFOUND_OK(ret, false);
 
@@ -557,7 +557,7 @@ err:
     if (locked)
         __wt_lsm_tree_writeunlock(session, lsm_tree);
     if (in_sync)
-        (void)__wt_atomic_sub32(&lsm_tree->merge_syncing, 1);
+        (void)__wt_atomic_subv32(&lsm_tree->merge_syncing, 1);
     if (src != NULL)
         WT_TRET(src->close(src));
     if (dest != NULL)

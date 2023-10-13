@@ -246,7 +246,7 @@ __wt_lsm_manager_free_work_unit(WT_SESSION_IMPL *session, WT_LSM_WORK_UNIT *entr
     if (entry != NULL) {
         WT_ASSERT(session, entry->lsm_tree->queue_ref > 0);
 
-        (void)__wt_atomic_sub32(&entry->lsm_tree->queue_ref, 1);
+        (void)__wt_atomic_subv32(&entry->lsm_tree->queue_ref, 1);
         __wt_free(session, entry);
     }
 }
@@ -594,13 +594,13 @@ __wt_lsm_manager_push_entry(
      * Increment the queue reference before checking the flag since on close, the flag is cleared
      * and then the queue reference count is checked.
      */
-    (void)__wt_atomic_add32(&lsm_tree->queue_ref, 1);
+    (void)__wt_atomic_addv32(&lsm_tree->queue_ref, 1);
     if (!lsm_tree->active) {
-        (void)__wt_atomic_sub32(&lsm_tree->queue_ref, 1);
+        (void)__wt_atomic_subv32(&lsm_tree->queue_ref, 1);
         return (0);
     }
 
-    (void)__wt_atomic_add64(&lsm_tree->work_count, 1);
+    (void)__wt_atomic_addv64(&lsm_tree->work_count, 1);
     WT_RET(__wt_calloc_one(session, &entry));
     entry->type = type;
     entry->flags = flags;

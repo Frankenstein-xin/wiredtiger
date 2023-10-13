@@ -757,7 +757,7 @@ restart:
                  * Copy the flag for later closing.
                  */
                 if (F_ISSET_ATOMIC_16(slot, WT_SLOT_CLOSEFH))
-                    F_SET_ATOMIC_16(coalescing, WT_SLOT_CLOSEFH);
+                    F_SET_ATOMIC_V16(coalescing, WT_SLOT_CLOSEFH);
             } else {
                 /*
                  * If this written slot is not the next LSN, try to start coalescing with later

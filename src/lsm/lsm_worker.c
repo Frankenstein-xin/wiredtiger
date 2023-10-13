@@ -72,7 +72,7 @@ __lsm_worker_general_op(WT_SESSION_IMPL *session, WT_LSM_WORKER_ARGS *cookie, bo
               force ? " w/ force" : "", chunk->id, chunk->uri);
             ret = __wt_lsm_checkpoint_chunk(session, entry->lsm_tree, chunk);
             WT_ASSERT(session, chunk->refcnt > 0);
-            (void)__wt_atomic_sub32(&chunk->refcnt, 1);
+            (void)__wt_atomic_subv32(&chunk->refcnt, 1);
             WT_ERR(ret);
         }
     } else if (entry->type == WT_LSM_WORK_DROP)

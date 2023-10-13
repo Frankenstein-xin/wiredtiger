@@ -2262,7 +2262,7 @@ static inline int __wt_lex_compare_short(const WT_ITEM *user_item, const WT_ITEM
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 static inline int __wt_lex_compare_skip(WT_SESSION_IMPL *session, const WT_ITEM *user_item,
   const WT_ITEM *tree_item, size_t *matchp) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
-static inline int __wt_log_cmp(WT_LSN *lsn1, WT_LSN *lsn2)
+static inline int __wt_log_cmp(WT_LSN volatile *lsn1, WT_LSN volatile *lsn2)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 static inline int __wt_page_cell_data_ref_kv(WT_SESSION_IMPL *session, WT_PAGE *page,
   WT_CELL_UNPACK_KV *unpack, WT_ITEM *store) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
