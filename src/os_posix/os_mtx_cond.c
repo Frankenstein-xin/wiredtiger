@@ -67,7 +67,7 @@ __wt_cond_wait_signal(WT_SESSION_IMPL *session, WT_CONDVAR *cond, uint64_t usecs
 
     /* Fast path if already signalled. */
     *signalled = true;
-    if (__wt_atomic_addi32(&cond->waiters, 1) == 0) {
+    if (__wt_atomic_addiv32(&cond->waiters, 1) == 0) {
         WT_TRACK_OP_END(session);
         return;
     }
@@ -131,7 +131,7 @@ skipping:
     }
 
 err:
-    (void)__wt_atomic_subi32(&cond->waiters, 1);
+    (void)__wt_atomic_subiv32(&cond->waiters, 1);
 
     if (locked)
         WT_TRET(pthread_mutex_unlock(&cond->mtx));
@@ -165,7 +165,7 @@ __wt_cond_signal(WT_SESSION_IMPL *session, WT_CONDVAR *cond)
      * Fast path if we are in (or can enter), a state where the next waiter will return immediately
      * as already signaled.
      */
-    if (cond->waiters == -1 || (cond->waiters == 0 && __wt_atomic_casi32(&cond->waiters, 0, -1)))
+    if (cond->waiters == -1 || (cond->waiters == 0 && __wt_atomic_casiv32(&cond->waiters, 0, -1)))
         return;
 
     WT_ERR(pthread_mutex_lock(&cond->mtx));

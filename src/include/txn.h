@@ -106,13 +106,13 @@ struct __wt_txn_shared {
      * The first commit or durable timestamp used for this transaction. Determines its position in
      * the durable queue and prevents the all_durable timestamp moving past this point.
      */
-    wt_shared wt_timestamp_t pinned_durable_timestamp;
+    volatile wt_timestamp_t pinned_durable_timestamp;
 
     /*
      * The read timestamp used for this transaction. Determines what updates can be read and
      * prevents the oldest timestamp moving past this point.
      */
-    wt_shared wt_timestamp_t read_timestamp;
+    volatile wt_timestamp_t read_timestamp;
 
     volatile uint8_t is_allocating;
     WT_CACHE_LINE_PAD_END
@@ -129,13 +129,13 @@ struct __wt_txn_global {
      */
     volatile uint64_t oldest_id;
 
-    wt_shared wt_timestamp_t durable_timestamp;
-    wt_shared wt_timestamp_t last_ckpt_timestamp;
+    volatile wt_timestamp_t durable_timestamp;
+    volatile wt_timestamp_t last_ckpt_timestamp;
     wt_timestamp_t meta_ckpt_timestamp;
-    wt_shared wt_timestamp_t oldest_timestamp;
-    wt_shared wt_timestamp_t pinned_timestamp;
+    volatile wt_timestamp_t oldest_timestamp;
+    volatile wt_timestamp_t pinned_timestamp;
     wt_timestamp_t recovery_timestamp;
-    wt_shared wt_timestamp_t stable_timestamp;
+    volatile wt_timestamp_t stable_timestamp;
     wt_timestamp_t version_cursor_pinned_timestamp;
     bool has_durable_timestamp;
     bool has_oldest_timestamp;
@@ -164,7 +164,7 @@ struct __wt_txn_global {
       checkpoint_running_hs;             /* Checkpoint running and processing history store file */
     volatile uint32_t checkpoint_id;     /* Checkpoint's session ID */
     WT_TXN_SHARED checkpoint_txn_shared; /* Checkpoint's txn shared state */
-    wt_shared wt_timestamp_t checkpoint_timestamp; /* Checkpoint's timestamp */
+    volatile wt_timestamp_t checkpoint_timestamp; /* Checkpoint's timestamp */
 
     volatile uint64_t debug_ops;       /* Debug mode op counter */
     uint64_t debug_rollback;                     /* Debug mode rollback */
@@ -355,7 +355,7 @@ struct __wt_txn {
 #define WT_TXN_TS_ROUND_READ 0x40000u
 #define WT_TXN_UPDATE 0x80000u
     /* AUTOMATIC FLAG VALUE GENERATION STOP 32 */
-    wt_shared uint32_t flags;
+    volatile uint32_t flags;
 
     /*
      * Zero or more bytes of value (the payload) immediately follows the WT_TXN structure. We use a

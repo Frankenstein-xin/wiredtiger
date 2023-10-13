@@ -1847,7 +1847,7 @@ __wt_txn_commit(WT_SESSION_IMPL *session, const char *cfg[])
      */
     if (update_durable_ts)
         while (candidate_durable_timestamp > prev_durable_timestamp) {
-            if (__wt_atomic_cas64(&txn_global->durable_timestamp, prev_durable_timestamp,
+            if (__wt_atomic_casv64(&txn_global->durable_timestamp, prev_durable_timestamp,
                   candidate_durable_timestamp)) {
                 txn_global->has_durable_timestamp = true;
                 break;
