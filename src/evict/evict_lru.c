@@ -972,7 +972,7 @@ __wt_evict_file_exclusive_off(WT_SESSION_IMPL *session)
         int32_t v;
 
         WT_ASSERT(session, btree->evict_ref == NULL);
-        v = __wt_atomic_subi32(&btree->evict_disabled, 1);
+        v = __wt_atomic_subiv32(&btree->evict_disabled, 1);
         WT_ASSERT(session, v >= 0);
     }
 #else

@@ -738,7 +738,7 @@ extern int __wt_desc_write(WT_SESSION_IMPL *session, WT_FH *fh, uint32_t allocsi
 extern int __wt_dhandle_update_write_gens(WT_SESSION_IMPL *session)
   WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_direct_io_size_check(WT_SESSION_IMPL *session, const char **cfg,
-  const char *config_name, uint32_t *allocsizep) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
+  const char *config_name, uint32_t volatile *allocsizep) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_encrypt(WT_SESSION_IMPL *session, WT_KEYED_ENCRYPTOR *kencryptor, size_t skip,
   WT_ITEM *in, WT_ITEM *out) WT_GCC_FUNC_DECL_ATTRIBUTE((warn_unused_result));
 extern int __wt_encryptor_config(WT_SESSION_IMPL *session, WT_CONFIG_ITEM *cval,
@@ -2465,7 +2465,7 @@ static inline void __wt_buf_free(WT_SESSION_IMPL *session, WT_ITEM *buf);
 static inline void __wt_cache_decr_check_size(
   WT_SESSION_IMPL *session, size_t *vp, size_t v, const char *fld);
 static inline void __wt_cache_decr_check_uint64(
-  WT_SESSION_IMPL *session, uint64_t *vp, uint64_t v, const char *fld);
+  WT_SESSION_IMPL *session, uint64_t volatile *vp, uint64_t v, const char *fld);
 static inline void __wt_cache_dirty_decr(WT_SESSION_IMPL *session, WT_PAGE *page);
 static inline void __wt_cache_dirty_incr(WT_SESSION_IMPL *session, WT_PAGE *page);
 static inline void __wt_cache_page_byte_dirty_decr(

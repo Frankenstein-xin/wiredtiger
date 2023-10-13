@@ -14,7 +14,7 @@
  */
 int
 __wt_direct_io_size_check(
-  WT_SESSION_IMPL *session, const char **cfg, const char *config_name, uint32_t *allocsizep)
+  WT_SESSION_IMPL *session, const char **cfg, const char *config_name, uint32_t volatile *allocsizep)
 {
     WT_CONFIG_ITEM cval;
     WT_CONNECTION_IMPL *conn;

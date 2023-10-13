@@ -113,7 +113,7 @@ struct __wt_btree {
     uint32_t id; /* File ID, for logging */
 
     uint32_t allocsize;             /* Allocation size */
-    wt_shared uint32_t maxintlpage; /* Internal page max size */
+    volatile uint32_t maxintlpage; /* Internal page max size */
     uint32_t maxleafpage;           /* Leaf page max size */
     uint32_t maxleafkey;            /* Leaf page max key size */
     uint32_t maxleafvalue;          /* Leaf page max value size */
@@ -161,8 +161,8 @@ struct __wt_btree {
     uint64_t last_recno; /* Column-store last record number */
 
     WT_REF root;                /* Root page reference */
-    wt_shared bool modified;    /* If the tree ever modified */
-    wt_shared uint8_t original; /* Newly created: bulk-load possible
+    volatile bool modified;    /* If the tree ever modified */
+    volatile uint8_t original; /* Newly created: bulk-load possible
                          (want a bool but needs atomic cas) */
 
     bool hs_entries;  /* Has entries in the history store table */
@@ -177,7 +177,7 @@ struct __wt_btree {
     uint64_t rec_max_txn;    /* Maximum txn seen (clean trees) */
     wt_timestamp_t rec_max_timestamp;
 
-    wt_shared uint64_t checkpoint_gen; /* Checkpoint generation */
+    volatile uint64_t checkpoint_gen; /* Checkpoint generation */
     WT_SESSION_IMPL *sync_session;     /* Syncing session */
     WT_BTREE_SYNC syncing;             /* Sync status */
 
@@ -193,12 +193,12 @@ struct __wt_btree {
 #define WT_SESSION_BTREE_SYNC_SAFE(session, btree) \
     ((btree)->syncing != WT_BTREE_SYNC_RUNNING || (btree)->sync_session == (session))
 
-    wt_shared uint64_t bytes_dirty_intl;  /* Bytes in dirty internal pages. */
-    wt_shared uint64_t bytes_dirty_leaf;  /* Bytes in dirty leaf pages. */
-    wt_shared uint64_t bytes_dirty_total; /* Bytes ever dirtied in cache. */
-    wt_shared uint64_t bytes_inmem;       /* Cache bytes in memory. */
-    wt_shared uint64_t bytes_internal;    /* Bytes in internal pages. */
-    wt_shared uint64_t bytes_updates;     /* Bytes in updates. */
+    volatile uint64_t bytes_dirty_intl;  /* Bytes in dirty internal pages. */
+    volatile uint64_t bytes_dirty_leaf;  /* Bytes in dirty leaf pages. */
+    volatile uint64_t bytes_dirty_total; /* Bytes ever dirtied in cache. */
+    volatile uint64_t bytes_inmem;       /* Cache bytes in memory. */
+    volatile uint64_t bytes_internal;    /* Bytes in internal pages. */
+    volatile uint64_t bytes_updates;     /* Bytes in updates. */
 
     /*
      * The maximum bytes allowed to be used for the table on disk. This is currently only used for
@@ -244,9 +244,9 @@ struct __wt_btree {
     u_int evict_walk_period;                /* Skip this many LRU walks */
     u_int evict_walk_saved;                 /* Saved walk skips for checkpoints */
     u_int evict_walk_skips;                 /* Number of walks skipped */
-    wt_shared int32_t evict_disabled;       /* Eviction disabled count */
+    volatile int32_t evict_disabled;       /* Eviction disabled count */
     bool evict_disabled_open;               /* Eviction disabled on open */
-    wt_shared volatile uint32_t evict_busy; /* Count of threads in eviction */
+    volatile uint32_t evict_busy; /* Count of threads in eviction */
     WT_EVICT_WALK_TYPE evict_start_type;
 
 /*
