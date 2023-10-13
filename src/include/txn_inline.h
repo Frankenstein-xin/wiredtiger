@@ -224,7 +224,7 @@ __txn_next_op(WT_SESSION_IMPL *session, WT_TXN_OP **opp)
     op = &txn->mod[txn->mod_count++];
     WT_CLEAR(*op);
     op->btree = S2BT(session);
-    (void)__wt_atomic_addi32(&session->dhandle->session_inuse, 1);
+    (void)__wt_atomic_addiv32(&session->dhandle->session_inuse, 1);
     *opp = op;
     return (0);
 }

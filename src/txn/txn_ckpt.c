@@ -968,7 +968,7 @@ __txn_checkpoint_establish_time(WT_SESSION_IMPL *session)
         WT_ORDERED_READ(most_recent, conn->ckpt_most_recent);
         if (ckpt_sec <= most_recent)
             ckpt_sec = most_recent + 1;
-        if (__wt_atomic_cas64(&conn->ckpt_most_recent, most_recent, ckpt_sec))
+        if (__wt_atomic_casv64(&conn->ckpt_most_recent, most_recent, ckpt_sec))
             break;
     }
 

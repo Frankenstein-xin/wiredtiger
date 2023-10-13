@@ -38,9 +38,9 @@
 /* The metadata cursor's data handle. */
 #define WT_SESSION_META_DHANDLE(s) (((WT_CURSOR_BTREE *)((s)->meta_cursor))->dhandle)
 
-#define WT_DHANDLE_ACQUIRE(dhandle) (void)__wt_atomic_add32(&(dhandle)->references, 1)
+#define WT_DHANDLE_ACQUIRE(dhandle) (void)__wt_atomic_addv32(&(dhandle)->references, 1)
 
-#define WT_DHANDLE_RELEASE(dhandle) (void)__wt_atomic_sub32(&(dhandle)->references, 1)
+#define WT_DHANDLE_RELEASE(dhandle) (void)__wt_atomic_subv32(&(dhandle)->references, 1)
 
 #define WT_DHANDLE_NEXT(session, dhandle, head, field)                                     \
     do {                                                                                   \
@@ -94,8 +94,8 @@ struct __wt_data_handle {
      * references; sessions using a connection's data handle will have a non-zero in-use count.
      * Instances of cached cursors referencing the data handle appear in session_cache_ref.
      */
-    wt_shared uint32_t references;   /* References to this handle */
-    wt_shared int32_t session_inuse; /* Sessions using this handle */
+    volatile uint32_t references;   /* References to this handle */
+    volatile int32_t session_inuse; /* Sessions using this handle */
     uint32_t excl_ref;               /* Refs of handle by excl_session */
     uint64_t timeofdeath;            /* Use count went to 0 */
     WT_SESSION_IMPL *excl_session;   /* Session with exclusive use, if any */

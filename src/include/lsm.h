@@ -179,7 +179,7 @@ struct __wt_lsm_manager {
     WT_SPINLOCK app_lock;           /* Lock for application queue */
     WT_SPINLOCK manager_lock;       /* Lock for manager queue */
     WT_CONDVAR *work_cond;          /* Used to notify worker of activity */
-    wt_shared uint32_t lsm_workers; /* Current number of LSM workers */
+    volatile uint32_t lsm_workers; /* Current number of LSM workers */
     uint32_t lsm_workers_max;
 #define WT_LSM_MAX_WORKERS 20
 #define WT_LSM_MIN_WORKERS 3

@@ -107,7 +107,7 @@ __tiered_dhandle_setup(WT_SESSION_IMPL *session, WT_TIERED *tiered, uint32_t i, 
     }
     /* Reference the dhandle and set it in the tier array. */
     tier = &tiered->tiers[id];
-    (void)__wt_atomic_addi32(&session->dhandle->session_inuse, 1);
+    (void)__wt_atomic_addiv32(&session->dhandle->session_inuse, 1);
     tier->tier = session->dhandle;
 
     /* The Btree needs to use the bucket storage to do file system operations. */
@@ -457,7 +457,7 @@ __tiered_update_dhandles(WT_SESSION_IMPL *session, WT_TIERED *tiered)
             if (strcmp(tiered->tiers[i].tier->name, tiered->tiers[i].name) == 0)
                 continue;
             else
-                (void)__wt_atomic_subi32(&tiered->tiers[i].tier->session_inuse, 1);
+                (void)__wt_atomic_subiv32(&tiered->tiers[i].tier->session_inuse, 1);
         }
         if (tiered->tiers[i].name == NULL)
             continue;

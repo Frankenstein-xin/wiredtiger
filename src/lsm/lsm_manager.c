@@ -196,7 +196,7 @@ __wt_lsm_manager_start(WT_SESSION_IMPL *session)
         return (0);
 
     /* It's possible to race, see if we're the winner. */
-    if (!__wt_atomic_cas32(&manager->lsm_workers, 0, 1))
+    if (!__wt_atomic_casv32(&manager->lsm_workers, 0, 1))
         return (0);
 
     /* We need at least a manager, a switch thread and a generic worker. */

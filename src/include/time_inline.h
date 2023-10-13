@@ -118,7 +118,7 @@ __wt_clock(WT_SESSION_IMPL *session)
  *     Return the seconds since the Epoch.
  */
 static inline void
-__wt_seconds(WT_SESSION_IMPL *session, uint64_t *secondsp)
+__wt_seconds(WT_SESSION_IMPL *session, uint64_t volatile * secondsp)
 {
     struct timespec t;
 

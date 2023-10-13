@@ -1483,7 +1483,7 @@ retry:
         } else {
             if (incr) {
                 WT_ASSERT(session, dhandle->session_inuse > 0);
-                (void)__wt_atomic_subi32(&dhandle->session_inuse, 1);
+                (void)__wt_atomic_subiv32(&dhandle->session_inuse, 1);
                 incr = false;
                 cache->walk_tree = NULL;
             }
@@ -1537,7 +1537,7 @@ retry:
             continue;
         btree->evict_walk_skips = 0;
 
-        (void)__wt_atomic_addi32(&dhandle->session_inuse, 1);
+        (void)__wt_atomic_addiv32(&dhandle->session_inuse, 1);
         incr = true;
         __wt_readunlock(session, &conn->dhandle_lock);
         dhandle_locked = false;
@@ -1580,7 +1580,7 @@ retry:
 
     if (incr) {
         WT_ASSERT(session, dhandle->session_inuse > 0);
-        (void)__wt_atomic_subi32(&dhandle->session_inuse, 1);
+        (void)__wt_atomic_subiv32(&dhandle->session_inuse, 1);
         incr = false;
     }
 
@@ -1602,7 +1602,7 @@ err:
 
     if (incr) {
         WT_ASSERT(session, dhandle->session_inuse > 0);
-        (void)__wt_atomic_subi32(&dhandle->session_inuse, 1);
+        (void)__wt_atomic_subiv32(&dhandle->session_inuse, 1);
     }
 
     /*

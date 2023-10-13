@@ -189,7 +189,7 @@ __wt_txn_op_free(WT_SESSION_IMPL *session, WT_TXN_OP *op)
         break;
     }
 
-    (void)__wt_atomic_subi32(&op->btree->dhandle->session_inuse, 1);
+    (void)__wt_atomic_subiv32(&op->btree->dhandle->session_inuse, 1);
 
     op->type = WT_TXN_OP_NONE;
     op->flags = 0;

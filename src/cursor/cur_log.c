@@ -300,7 +300,7 @@ err:
 
     conn = S2C(session);
     if (F_ISSET(cl, WT_CURLOG_REMOVE_LOCK)) {
-        (void)__wt_atomic_sub32(&conn->log_cursors, 1);
+        (void)__wt_atomic_subv32(&conn->log_cursors, 1);
         __wt_readunlock(session, &conn->log->log_remove_lock);
     }
 
@@ -386,7 +386,7 @@ __wt_curlog_open(WT_SESSION_IMPL *session, const char *uri, const char *cfg[], W
         /* Log cursors block removal. */
         __wt_readlock(session, &log->log_remove_lock);
         F_SET(cl, WT_CURLOG_REMOVE_LOCK);
-        (void)__wt_atomic_add32(&conn->log_cursors, 1);
+        (void)__wt_atomic_addv32(&conn->log_cursors, 1);
     }
 
     if (0) {

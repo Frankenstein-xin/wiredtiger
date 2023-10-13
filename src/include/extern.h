@@ -2522,7 +2522,7 @@ static inline void __wt_row_leaf_value_cell(
   WT_SESSION_IMPL *session, WT_PAGE *page, WT_ROW *rip, WT_CELL_UNPACK_KV *vpack);
 static inline void __wt_row_leaf_value_set(WT_ROW *rip, WT_CELL_UNPACK_KV *unpack);
 static inline void __wt_scr_free(WT_SESSION_IMPL *session, WT_ITEM **bufp);
-static inline void __wt_seconds(WT_SESSION_IMPL *session, uint64_t *secondsp);
+static inline void __wt_seconds(WT_SESSION_IMPL *session, uint64_t volatile *secondsp);
 static inline void __wt_seconds32(WT_SESSION_IMPL *session, uint32_t *secondsp);
 static inline void __wt_spin_backoff(uint64_t *yield_count, uint64_t *sleep_usecs);
 static inline void __wt_spin_destroy(WT_SESSION_IMPL *session, WT_SPINLOCK *t);

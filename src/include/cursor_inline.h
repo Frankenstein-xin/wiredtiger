@@ -362,7 +362,7 @@ __wt_cursor_dhandle_incr_use(WT_SESSION_IMPL *session)
     dhandle = session->dhandle;
 
     /* If we open a handle with a time of death set, clear it. */
-    if (__wt_atomic_addi32(&dhandle->session_inuse, 1) == 1 && dhandle->timeofdeath != 0)
+    if (__wt_atomic_addiv32(&dhandle->session_inuse, 1) == 1 && dhandle->timeofdeath != 0)
         dhandle->timeofdeath = 0;
 }
 
@@ -384,7 +384,7 @@ __wt_cursor_dhandle_decr_use(WT_SESSION_IMPL *session)
     WT_ASSERT(session, dhandle->session_inuse > 0);
     if (dhandle->timeofdeath != 0 && dhandle->session_inuse == 1)
         dhandle->timeofdeath = 0;
-    (void)__wt_atomic_subi32(&dhandle->session_inuse, 1);
+    (void)__wt_atomic_subiv32(&dhandle->session_inuse, 1);
 }
 
 /*
