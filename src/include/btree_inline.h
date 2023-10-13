@@ -293,10 +293,10 @@ __wt_cache_page_inmem_incr(WT_SESSION_IMPL *session, WT_PAGE *page, size_t size)
      * Always increase the size in sequence of cache, btree, and page as we may race with other
      * threads that are trying to decrease the sizes concurrently.
      */
-    (void)__wt_atomic_add64(&cache->bytes_inmem, size);
+    (void)__wt_atomic_addv64(&cache->bytes_inmem, size);
     (void)__wt_atomic_addv64(&btree->bytes_inmem, size);
     if (WT_PAGE_IS_INTERNAL(page)) {
-        (void)__wt_atomic_add64(&cache->bytes_internal, size);
+        (void)__wt_atomic_addv64(&cache->bytes_internal, size);
         (void)__wt_atomic_addv64(&btree->bytes_internal, size);
     }
     (void)__wt_atomic_addvsize(&page->memory_footprint, size);
@@ -313,16 +313,16 @@ __wt_cache_page_inmem_incr(WT_SESSION_IMPL *session, WT_PAGE *page, size_t size)
           __wt_session_gen(session, WT_GEN_EVICT) == 0)
             WT_STAT_SESSION_INCRV(session, txn_bytes_dirty, size);
         if (!WT_PAGE_IS_INTERNAL(page) && !btree->lsm_primary) {
-            (void)__wt_atomic_add64(&cache->bytes_updates, size);
+            (void)__wt_atomic_addv64(&cache->bytes_updates, size);
             (void)__wt_atomic_addv64(&btree->bytes_updates, size);
             (void)__wt_atomic_addvsize(&page->modify->bytes_updates, size);
         }
         if (__wt_page_is_modified(page)) {
             if (WT_PAGE_IS_INTERNAL(page)) {
-                (void)__wt_atomic_add64(&cache->bytes_dirty_intl, size);
+                (void)__wt_atomic_addv64(&cache->bytes_dirty_intl, size);
                 (void)__wt_atomic_addv64(&btree->bytes_dirty_intl, size);
             } else if (!btree->lsm_primary) {
-                (void)__wt_atomic_add64(&cache->bytes_dirty_leaf, size);
+                (void)__wt_atomic_addv64(&cache->bytes_dirty_leaf, size);
                 (void)__wt_atomic_addv64(&btree->bytes_dirty_leaf, size);
             }
             (void)__wt_atomic_addvsize(&page->modify->bytes_dirty, size);
@@ -529,17 +529,17 @@ __wt_cache_dirty_incr(WT_SESSION_IMPL *session, WT_PAGE *page)
      */
     size = page->memory_footprint;
     if (WT_PAGE_IS_INTERNAL(page)) {
-        (void)__wt_atomic_add64(&cache->pages_dirty_intl, 1);
-        (void)__wt_atomic_add64(&cache->bytes_dirty_intl, size);
+        (void)__wt_atomic_addv64(&cache->pages_dirty_intl, 1);
+        (void)__wt_atomic_addv64(&cache->bytes_dirty_intl, size);
         (void)__wt_atomic_addv64(&btree->bytes_dirty_intl, size);
     } else {
         if (!btree->lsm_primary) {
-            (void)__wt_atomic_add64(&cache->bytes_dirty_leaf, size);
+            (void)__wt_atomic_addv64(&cache->bytes_dirty_leaf, size);
             (void)__wt_atomic_addv64(&btree->bytes_dirty_leaf, size);
         }
-        (void)__wt_atomic_add64(&cache->pages_dirty_leaf, 1);
+        (void)__wt_atomic_addv64(&cache->pages_dirty_leaf, 1);
     }
-    (void)__wt_atomic_add64(&cache->bytes_dirty_total, size);
+    (void)__wt_atomic_addv64(&cache->bytes_dirty_total, size);
     (void)__wt_atomic_addv64(&btree->bytes_dirty_total, size);
     (void)__wt_atomic_addvsize(&page->modify->bytes_dirty, size);
 }
@@ -597,9 +597,9 @@ __wt_cache_page_image_incr(WT_SESSION_IMPL *session, WT_PAGE *page)
 
     cache = S2C(session)->cache;
     if (WT_PAGE_IS_INTERNAL(page))
-        (void)__wt_atomic_add64(&cache->bytes_image_intl, page->dsk->mem_size);
+        (void)__wt_atomic_addv64(&cache->bytes_image_intl, page->dsk->mem_size);
     else
-        (void)__wt_atomic_add64(&cache->bytes_image_leaf, page->dsk->mem_size);
+        (void)__wt_atomic_addv64(&cache->bytes_image_leaf, page->dsk->mem_size);
 }
 
 /*
@@ -655,7 +655,7 @@ __wt_cache_page_evict(WT_SESSION_IMPL *session, WT_PAGE *page)
     }
 
     /* Update bytes and pages evicted. */
-    (void)__wt_atomic_add64(&cache->bytes_evict, page->memory_footprint);
+    (void)__wt_atomic_addv64(&cache->bytes_evict, page->memory_footprint);
     (void)__wt_atomic_addv64(&cache->pages_evicted, 1);
 
     /*

@@ -43,7 +43,7 @@ struct __wt_evict_queue {
     WT_EVICT_ENTRY *evict_current;         /* LRU current page to be evicted */
     uint32_t evict_candidates;             /* LRU list pages to evict */
     uint32_t evict_entries;                /* LRU entries in the queue */
-    wt_shared volatile uint32_t evict_max; /* LRU maximum eviction slot used */
+    volatile uint32_t evict_max; /* LRU maximum eviction slot used */
 };
 
 /* Cache operations. */
@@ -67,17 +67,17 @@ struct __wt_cache {
      * goes out and calculate the difference as needed.
      */
 
-    wt_shared uint64_t bytes_dirty_intl; /* Bytes/pages currently dirty */
-    wt_shared uint64_t bytes_dirty_leaf;
-    wt_shared uint64_t bytes_dirty_total;
-    wt_shared uint64_t bytes_evict;      /* Bytes/pages discarded by eviction */
-    wt_shared uint64_t bytes_image_intl; /* Bytes of disk images (internal) */
-    wt_shared uint64_t bytes_image_leaf; /* Bytes of disk images (leaf) */
-    wt_shared uint64_t bytes_inmem;      /* Bytes/pages in memory */
-    wt_shared uint64_t bytes_internal;   /* Bytes of internal pages */
-    wt_shared uint64_t bytes_read;       /* Bytes read into memory */
-    wt_shared uint64_t bytes_updates;    /* Bytes of updates to pages */
-    wt_shared uint64_t bytes_written;
+    volatile uint64_t bytes_dirty_intl; /* Bytes/pages currently dirty */
+    volatile uint64_t bytes_dirty_leaf;
+    volatile uint64_t bytes_dirty_total;
+    volatile uint64_t bytes_evict;      /* Bytes/pages discarded by eviction */
+    volatile uint64_t bytes_image_intl; /* Bytes of disk images (internal) */
+    volatile uint64_t bytes_image_leaf; /* Bytes of disk images (leaf) */
+    volatile uint64_t bytes_inmem;      /* Bytes/pages in memory */
+    volatile uint64_t bytes_internal;   /* Bytes of internal pages */
+    volatile uint64_t bytes_read;       /* Bytes read into memory */
+    volatile uint64_t bytes_updates;    /* Bytes of updates to pages */
+    volatile uint64_t bytes_written;
 
     /*
      * History store cache usage. TODO: The values for these variables are cached and potentially
@@ -86,12 +86,12 @@ struct __wt_cache {
     uint64_t bytes_hs;       /* History store bytes inmem */
     uint64_t bytes_hs_dirty; /* History store bytes inmem dirty */
 
-    wt_shared uint64_t pages_dirty_intl;
-    wt_shared uint64_t pages_dirty_leaf;
-    wt_shared uint64_t pages_evicted;
-    wt_shared uint64_t pages_inmem;
+    volatile uint64_t pages_dirty_intl;
+    volatile uint64_t pages_dirty_leaf;
+    volatile uint64_t pages_evicted;
+    volatile uint64_t pages_inmem;
 
-    wt_shared volatile uint64_t eviction_progress; /* Eviction progress count */
+    volatile uint64_t eviction_progress; /* Eviction progress count */
     uint64_t last_eviction_progress;               /* Tracked eviction progress */
 
     uint64_t app_waits;  /* User threads waited for cache */
@@ -151,7 +151,7 @@ struct __wt_cache {
     /*
      * Pass interrupt counter.
      */
-    wt_shared volatile uint32_t pass_intr; /* Interrupt eviction pass. */
+    volatile uint32_t pass_intr; /* Interrupt eviction pass. */
 
     /*
      * LRU eviction list information.
@@ -197,7 +197,7 @@ struct __wt_cache {
      * this we track the checkpoint generation for the most recent read and write verbose messages.
      */
     uint64_t hs_verb_gen_read;
-    wt_shared uint64_t hs_verb_gen_write;
+    volatile uint64_t hs_verb_gen_write;
 
     /*
      * Cache pool information.
@@ -220,7 +220,7 @@ struct __wt_cache {
 #define WT_CACHE_POOL_MANAGER 0x1u        /* The active cache pool manager */
 #define WT_CACHE_POOL_RUN 0x2u            /* Cache pool thread running */
                                           /* AUTOMATIC FLAG VALUE GENERATION STOP 32 */
-    wt_shared uint16_t pool_flags_atomic; /* Cache pool flags */
+    volatile uint16_t pool_flags_atomic; /* Cache pool flags */
 
 /* AUTOMATIC FLAG VALUE GENERATION START 0 */
 #define WT_CACHE_EVICT_CLEAN 0x001u        /* Evict clean pages */
@@ -260,7 +260,7 @@ struct __wt_cache_pool {
     /* Locked: List of connections participating in the cache pool. */
     TAILQ_HEAD(__wt_cache_pool_qh, __wt_connection_impl) cache_pool_qh;
 
-    wt_shared uint8_t pool_managed; /* Cache pool has a manager thread */
+    volatile uint8_t pool_managed; /* Cache pool has a manager thread */
 
 /* AUTOMATIC FLAG VALUE GENERATION START 0 */
 #define WT_CACHE_POOL_ACTIVE 0x1u /* Cache pool is active */

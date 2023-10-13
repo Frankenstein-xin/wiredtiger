@@ -265,7 +265,7 @@ __wt_conn_cache_pool_open(WT_SESSION_IMPL *session)
      * process when the active connection shuts down.
      */
     F_SET(cp, WT_CACHE_POOL_ACTIVE);
-    FLD_SET_ATOMIC_16(cache->pool_flags_atomic, WT_CACHE_POOL_RUN);
+    FLD_SET_ATOMIC_V16(cache->pool_flags_atomic, WT_CACHE_POOL_RUN);
     WT_RET(__wt_thread_create(session, &cache->cp_tid, __wt_cache_pool_server, cache->cp_session));
 
     /* Wake up the cache pool server to get our initial chunk. */
@@ -323,7 +323,7 @@ __wt_conn_cache_pool_destroy(WT_SESSION_IMPL *session)
          */
         __wt_spin_unlock(session, &cp->cache_pool_lock);
 
-        FLD_CLR_ATOMIC_16(cache->pool_flags_atomic, WT_CACHE_POOL_RUN);
+        FLD_CLR_ATOMIC_V16(cache->pool_flags_atomic, WT_CACHE_POOL_RUN);
         __wt_cond_signal(session, cp->cache_pool_cond);
         WT_TRET(__wt_thread_join(session, &cache->cp_tid));
 
@@ -711,8 +711,8 @@ __wt_cache_pool_server(void *arg)
             break;
 
         /* Try to become the managing thread */
-        if (__wt_atomic_cas8(&cp->pool_managed, 0, 1)) {
-            FLD_SET_ATOMIC_16(cache->pool_flags_atomic, WT_CACHE_POOL_MANAGER);
+        if (__wt_atomic_casv8(&cp->pool_managed, 0, 1)) {
+            FLD_SET_ATOMIC_V16(cache->pool_flags_atomic, WT_CACHE_POOL_MANAGER);
             __wt_verbose(session, WT_VERB_SHARED_CACHE, "%s", "Cache pool switched manager thread");
         }
 
