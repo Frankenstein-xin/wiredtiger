@@ -410,7 +410,7 @@ struct __wt_connection_impl {
     size_t session_scratch_max; /* Max scratch memory per session */
 
     WT_CACHE *cache;                        /* Page cache */
-    wt_shared volatile uint64_t cache_size; /* Cache size (either statically
+    volatile uint64_t cache_size; /* Cache size (either statically
                                      configured or the current size
                                      within a cache pool). */
 
@@ -633,7 +633,7 @@ struct __wt_connection_impl {
     wt_shared uint64_t stashed_objects;
 
     /* Generations manager */
-    wt_shared volatile uint64_t generations[WT_GENERATIONS];
+    volatile uint64_t generations[WT_GENERATIONS];
     uint64_t gen_drain_timeout_ms; /* Maximum waiting time for a resource to drain in diagnostic
                                       mode before timing out */
 

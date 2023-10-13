@@ -106,7 +106,7 @@ struct __wt_fh {
 
     uint64_t name_hash;                  /* hash of name */
     uint64_t last_sync;                  /* time of background fsync */
-    wt_shared volatile uint64_t written; /* written since fsync */
+    volatile uint64_t written; /* written since fsync */
     TAILQ_ENTRY(__wt_fh) q;              /* internal queue */
     TAILQ_ENTRY(__wt_fh) hashq;          /* internal hash queue */
     u_int ref;                           /* reference count */
@@ -146,9 +146,9 @@ struct __wt_file_handle_posix {
     bool mmap_file_mappable;
     int mmap_prot;
     int mmap_flags;
-    wt_shared volatile uint32_t mmap_resizing;
+    volatile uint32_t mmap_resizing;
     wt_off_t mmap_size;
-    wt_shared volatile uint32_t mmap_usecount;
+    volatile uint32_t mmap_usecount;
 };
 #endif
 

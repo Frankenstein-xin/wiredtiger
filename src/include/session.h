@@ -146,8 +146,8 @@ struct __wt_session_impl {
      * Variables used to look for violations of the contract that a session is only used by a single
      * session at once.
      */
-    wt_shared volatile uintmax_t api_tid;
-    wt_shared volatile uint32_t api_enter_refcnt;
+    volatile uintmax_t api_tid;
+    volatile uint32_t api_enter_refcnt;
     /*
      * It's hard to figure out from where a buffer was allocated after it's leaked, so in diagnostic
      * mode we track them; DIAGNOSTIC can't simply add additional fields to WT_ITEM structures
@@ -310,7 +310,7 @@ struct __wt_session_impl {
 #define WT_GEN_HAZARD 3     /* Hazard pointer */
 #define WT_GEN_SPLIT 4      /* Page splits */
 #define WT_GENERATIONS 5    /* Total generation manager entries */
-    wt_shared volatile uint64_t generations[WT_GENERATIONS];
+    volatile uint64_t generations[WT_GENERATIONS];
 
     /*
      * Session memory persists past session close because it's accessed by threads of control other

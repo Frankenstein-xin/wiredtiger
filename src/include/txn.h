@@ -98,9 +98,9 @@ typedef enum {
 
 struct __wt_txn_shared {
     WT_CACHE_LINE_PAD_BEGIN
-    wt_shared volatile uint64_t id;
-    wt_shared volatile uint64_t pinned_id;
-    wt_shared volatile uint64_t metadata_pinned;
+    volatile uint64_t id;
+    volatile uint64_t pinned_id;
+    volatile uint64_t metadata_pinned;
 
     /*
      * The first commit or durable timestamp used for this transaction. Determines its position in
@@ -114,20 +114,20 @@ struct __wt_txn_shared {
      */
     wt_shared wt_timestamp_t read_timestamp;
 
-    wt_shared volatile uint8_t is_allocating;
+    volatile uint8_t is_allocating;
     WT_CACHE_LINE_PAD_END
 };
 
 struct __wt_txn_global {
-    wt_shared volatile uint64_t current; /* Current transaction ID. */
+    volatile uint64_t current; /* Current transaction ID. */
 
     /* The oldest running transaction ID (may race). */
-    wt_shared volatile uint64_t last_running;
+    volatile uint64_t last_running;
 
     /*
      * The oldest transaction ID that is not yet visible to some transaction in the system.
      */
-    wt_shared volatile uint64_t oldest_id;
+    volatile uint64_t oldest_id;
 
     wt_shared wt_timestamp_t durable_timestamp;
     wt_shared wt_timestamp_t last_ckpt_timestamp;
@@ -159,16 +159,16 @@ struct __wt_txn_global {
      * We rely on the fact that (a) the only table a checkpoint updates is the metadata; and (b)
      * once checkpoint has finished reading a table, it won't revisit it.
      */
-    wt_shared volatile bool checkpoint_running; /* Checkpoint running */
-    wt_shared volatile bool
+    volatile bool checkpoint_running; /* Checkpoint running */
+    volatile bool
       checkpoint_running_hs;             /* Checkpoint running and processing history store file */
     volatile uint32_t checkpoint_id;     /* Checkpoint's session ID */
     WT_TXN_SHARED checkpoint_txn_shared; /* Checkpoint's txn shared state */
     wt_shared wt_timestamp_t checkpoint_timestamp; /* Checkpoint's timestamp */
 
-    wt_shared volatile uint64_t debug_ops;       /* Debug mode op counter */
+    volatile uint64_t debug_ops;       /* Debug mode op counter */
     uint64_t debug_rollback;                     /* Debug mode rollback */
-    wt_shared volatile uint64_t metadata_pinned; /* Oldest ID for metadata */
+    volatile uint64_t metadata_pinned; /* Oldest ID for metadata */
 
     WT_TXN_SHARED *txn_shared_list; /* Per-session shared transaction states */
 };

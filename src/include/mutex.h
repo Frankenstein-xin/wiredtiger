@@ -37,7 +37,7 @@ struct __wt_condvar {
  * functions.
  */
 struct __wt_rwlock { /* Read/write lock */
-    wt_shared volatile union {
+    volatile union {
         uint64_t v; /* Full 64-bit value */
         struct {
             uint8_t current;         /* Current ticket */

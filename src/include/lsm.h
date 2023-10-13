@@ -30,7 +30,7 @@ struct __wt_lsm_worker_args {
     u_int id;      /* My manager slot id */
     uint32_t type; /* Types of operations handled */
 
-    wt_shared volatile bool running; /* Worker is running */
+    volatile bool running; /* Worker is running */
 };
 
 /*

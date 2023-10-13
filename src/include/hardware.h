@@ -13,7 +13,7 @@
  * type qualifier.
  *
  * Example usage:
- *     wt_shared volatile bool blkcache_exiting;
+ *     volatile bool blkcache_exiting;
  */
 #define wt_shared
 
