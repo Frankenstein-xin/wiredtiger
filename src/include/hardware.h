@@ -7,17 +7,6 @@
  */
 
 /*
- * This macro doesn't do anything and is used for annotation only. We use it to highlight
- * the variable is used in lock-less inter-thread communication - using mechanisms like memory
- * barriers and compare_and_swap - and requires caution when handling. It is designed to look like a
- * type qualifier.
- *
- * Example usage:
- *     volatile bool blkcache_exiting;
- */
-#define wt_shared
-
-/*
  * Publish a value to a shared location. All previous stores must complete before the value is made
  * public.
  */
