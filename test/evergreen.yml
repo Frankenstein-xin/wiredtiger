@@ -4866,6 +4866,266 @@ tasks:
         vars:
           format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360
 
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-01
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-02
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-03
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-04
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-05
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-06
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-07
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-08
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-09
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-10
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-11
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-12
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-13
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-14
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-15
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-16
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-17
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-18
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-19
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
+  - name: format-stress-test-no-barrier-try-repro-wt-11845-20
+    tags: ["stress-test-no-barrier"]
+    exec_timeout_secs: 25200
+    commands:
+      - func: "get project"
+      - func: "compile wiredtiger"
+        vars:
+          <<: *configure_flags_with_builtins
+          # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
+      - func: "format test script"
+        vars:
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
+
   - name: format-stress-test-no-barrier-nonstandalone
     tags: ["stress-test-no-barrier-nonstandalone"]
     exec_timeout_secs: 25200
@@ -6887,6 +7147,7 @@ buildvariants:
   tasks:
     - name: ".stress-test-1"
     - name: ".stress-test-2"
+    - name: ".stress-test-no-barrier"
     - name: format-abort-recovery-stress-test
     - name: ".stress-test-1-nonstandalone"
     - name: ".stress-test-2-nonstandalone"
