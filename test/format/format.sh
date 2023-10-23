@@ -55,6 +55,7 @@ usage() {
 	echo "    -R           add configuration for randomized split stress (defaults to none)"
 	echo "    -r binary    record with the given binary (defaults to no recording)"
 	echo "    -S           run smoke-test configurations (defaults to off)"
+	echo "    -s binary    path to the setsid program (defaults to expecting to find it on the path)"
 	echo "    -T           turn on format tracing (defaults to off)"
 	echo "    -t minutes   minutes to run (defaults to no limit)"
 	echo "    -v           verbose output (defaults to off)"
@@ -102,6 +103,7 @@ first_failure=0
 format_args=""
 format_binary="./t"
 home="."
+setsid_binary="setsid"
 live_record_binary=""
 minutes=0
 parallel_jobs=8
@@ -174,6 +176,11 @@ while :; do
 	-S)
 		smoke_test=1
 		shift ;;
+	-s)
+	  setsid_binary="$2"
+	  [[ -x ${setsid_binary##* } ]] ||
+    	fatal_msg "setsid binary \"${setsid_binary##* }\" not found"
+	  shift; shift ;;
 	-T)
 		trace='-T'
 		trace_args="$2"
@@ -620,7 +627,7 @@ format()
 	# continue to run.
 	# Run format in its own session so child processes are in their own process groups
 	# and we can individually terminate (and clean up) running jobs and their children.
-	nohup setsid $cmd > $log 2>&1 &
+	nohup "$setsid_binary" $cmd > $log 2>&1 &
 
 	# Check for setsid command failed execution, and forcibly quit (setsid exits 0 if the
 	# command execution fails so we can't check the exit status). The RUNDIR directory is
