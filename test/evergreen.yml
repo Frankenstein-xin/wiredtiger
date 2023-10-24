@@ -4878,7 +4878,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -t 360 -n 1 -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -t 360 -n 1 -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-01
     tags: ["stress-test-no-barrier"]
@@ -4891,7 +4891,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-02
     tags: ["stress-test-no-barrier"]
@@ -4904,7 +4904,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-03
     tags: ["stress-test-no-barrier"]
@@ -4917,7 +4917,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-04
     tags: ["stress-test-no-barrier"]
@@ -4930,7 +4930,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-05
     tags: ["stress-test-no-barrier"]
@@ -4943,7 +4943,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-06
     tags: ["stress-test-no-barrier"]
@@ -4956,7 +4956,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-07
     tags: ["stress-test-no-barrier"]
@@ -4969,7 +4969,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-08
     tags: ["stress-test-no-barrier"]
@@ -4982,7 +4982,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-09
     tags: ["stress-test-no-barrier"]
@@ -4995,7 +4995,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-10
     tags: ["stress-test-no-barrier"]
@@ -5008,7 +5008,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-11
     tags: ["stress-test-no-barrier"]
@@ -5021,7 +5021,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-12
     tags: ["stress-test-no-barrier"]
@@ -5034,7 +5034,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-13
     tags: ["stress-test-no-barrier"]
@@ -5047,7 +5047,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-14
     tags: ["stress-test-no-barrier"]
@@ -5060,7 +5060,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-15
     tags: ["stress-test-no-barrier"]
@@ -5073,7 +5073,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-16
     tags: ["stress-test-no-barrier"]
@@ -5086,7 +5086,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-17
     tags: ["stress-test-no-barrier"]
@@ -5099,7 +5099,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-18
     tags: ["stress-test-no-barrier"]
@@ -5112,7 +5112,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-19
     tags: ["stress-test-no-barrier"]
@@ -5125,7 +5125,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-20
     tags: ["stress-test-no-barrier"]
@@ -5138,7 +5138,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-21
     tags: [ "stress-test-no-barrier" ]
@@ -5151,7 +5151,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-22
     tags: [ "stress-test-no-barrier" ]
@@ -5164,7 +5164,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-23
     tags: [ "stress-test-no-barrier" ]
@@ -5177,7 +5177,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-24
     tags: [ "stress-test-no-barrier" ]
@@ -5190,7 +5190,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-25
     tags: [ "stress-test-no-barrier" ]
@@ -5203,7 +5203,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-26
     tags: [ "stress-test-no-barrier" ]
@@ -5216,7 +5216,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-27
     tags: [ "stress-test-no-barrier" ]
@@ -5229,7 +5229,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-28
     tags: [ "stress-test-no-barrier" ]
@@ -5242,7 +5242,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-29
     tags: [ "stress-test-no-barrier" ]
@@ -5255,7 +5255,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-30
     tags: [ "stress-test-no-barrier" ]
@@ -5268,7 +5268,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-31
     tags: [ "stress-test-no-barrier" ]
@@ -5281,7 +5281,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-32
     tags: [ "stress-test-no-barrier" ]
@@ -5294,7 +5294,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-33
     tags: [ "stress-test-no-barrier" ]
@@ -5307,7 +5307,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-34
     tags: [ "stress-test-no-barrier" ]
@@ -5320,7 +5320,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-35
     tags: [ "stress-test-no-barrier" ]
@@ -5333,7 +5333,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-36
     tags: [ "stress-test-no-barrier" ]
@@ -5346,7 +5346,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-37
     tags: [ "stress-test-no-barrier" ]
@@ -5359,7 +5359,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-38
     tags: [ "stress-test-no-barrier" ]
@@ -5372,7 +5372,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-39
     tags: [ "stress-test-no-barrier" ]
@@ -5385,7 +5385,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-try-repro-wt-11845-40
     tags: [ "stress-test-no-barrier" ]
@@ -5398,7 +5398,7 @@ tasks:
           # NON_BARRIER_DIAGNOSTIC_YIELDS: -DNON_BARRIER_DIAGNOSTIC_YIELDS=1
       - func: "format test script"
         vars:
-          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG -T all
+          format_test_script_args: -e "SEGFAULT_SIGNALS=all" -b "catchsegv ./t" -t 360  -F -c ../../../WT-11845.CONFIG
 
   - name: format-stress-test-no-barrier-nonstandalone
     tags: ["stress-test-no-barrier-nonstandalone"]
