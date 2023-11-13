@@ -399,7 +399,9 @@ WorkloadRunner::create_table(
     if (mirror_enabled) {
         mirror_config = config + "," + MIRROR_TABLE_APP_METADATA + uri + "," +
           BASE_TABLE_APP_METADATA + "false\"";
+        std::cout << "Creating the URI " << mirror_uri << std::endl;
         int ret = session->create(session, mirror_uri.c_str(), mirror_config.c_str());
+        std::cout << "Creating done " << ret << std::endl;
         if (ret != 0) {
             VERBOSE(*_workload, "Failed to create mirror table '" << mirror_uri << "' (" << ret << ").");
             return ret;
@@ -415,7 +417,9 @@ WorkloadRunner::create_table(
     int ret, retries = 0;
 
     do {
+        std::cout << "Creating the URI " << uri << std::endl;
         ret = session->create(session, uri.c_str(), base_config.c_str());
+        std::cout << "Creating done " << ret << std::endl;
     } while (ret != 0 && ret == EBUSY && mirror_enabled && ++retries < TABLE_MAX_RETRIES);
 
     if (ret != 0) {
@@ -996,7 +1000,9 @@ ContextInternal::create_all(WT_CONNECTION *conn)
         while ((ret = session->drop(session, uri.c_str(), "checkpoint_wait=false")) == EBUSY) {
             sleep(1);
         }
-        if (ret != 0 && ret != ENOENT)
+        if(ret == ENOENT)
+            std::cerr << "Table drop failed for '" << uri << "' in create_all, skipping it." << std::endl;
+        else if (ret != 0)
             THROW_ERRNO(ret, "Table drop failed for '" << uri << "' in create_all: " << ret << ".");
     }
 
