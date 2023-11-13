@@ -300,7 +300,7 @@ WorkloadRunner::start_table_idle_cycle(WT_CONNECTION *conn)
         }
 
         if (ret != 0) {
-            THROW("Table drop failed in cycle_idle_tables.");
+            THROW_ERRNO(ret, "Table drop failed in cycle_idle_tables.");
         }
         workgen_clock(&stop);
         last_interval = ns_to_sec(stop - start);
@@ -401,7 +401,7 @@ WorkloadRunner::create_table(
           BASE_TABLE_APP_METADATA + "false\"";
         int ret = session->create(session, mirror_uri.c_str(), mirror_config.c_str());
         if (ret != 0) {
-            VERBOSE(*_workload, "Failed to create mirror table '" << mirror_uri << "'");
+            VERBOSE(*_workload, "Failed to create mirror table '" << mirror_uri << "' (" << ret << ").");
             return ret;
         }
         // This will be used when creating the base table.
@@ -419,7 +419,7 @@ WorkloadRunner::create_table(
     } while (ret != 0 && ret == EBUSY && mirror_enabled && ++retries < TABLE_MAX_RETRIES);
 
     if (ret != 0) {
-        const std::string err_msg("Failed to create table '" + uri + "'");
+        const std::string err_msg("Failed to create table '" + uri + "' (" + std::to_string(ret) + ").");
         VERBOSE(*_workload, err_msg);
         // Fail if we have failed at creating the base of a mirror.
         if (mirror_enabled)
@@ -698,7 +698,7 @@ WorkloadRunner::start_tables_drop(WT_CONNECTION *conn)
                 sleep(1);
             }
             if (ret != 0)
-                THROW("Table drop failed for '" << uri << "' in start_tables_drop.");
+                THROW_ERRNO(ret, "Table drop failed for '" << uri << "' in start_tables_drop.");
 
             VERBOSE(*_workload, "Dropped table: " << uri);
         }
@@ -997,7 +997,7 @@ ContextInternal::create_all(WT_CONNECTION *conn)
             sleep(1);
         }
         if (ret != 0)
-            THROW("Table drop failed for '" << uri << "' in create_all.");
+            THROW_ERRNO(ret, "Table drop failed for '" << uri << "' in create_all: " << ret << ".");
     }
 
     if ((ret = session->close(session, NULL)) != 0) {
