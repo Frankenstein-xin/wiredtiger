@@ -996,7 +996,7 @@ ContextInternal::create_all(WT_CONNECTION *conn)
         while ((ret = session->drop(session, uri.c_str(), "checkpoint_wait=false")) == EBUSY) {
             sleep(1);
         }
-        if (ret != 0)
+        if (ret != 0 && ret != ENOENT)
             THROW_ERRNO(ret, "Table drop failed for '" << uri << "' in create_all: " << ret << ".");
     }
 
