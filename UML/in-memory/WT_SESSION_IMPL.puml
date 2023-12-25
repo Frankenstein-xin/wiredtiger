@@ -1,0 +1,18 @@
+@startuml WT_SESSION_IMPL
+
+struct "__wt_session_impl" as WT_SESSION_IMPL {
+    + WT_SESSION iface
+    --
+    + unsigned int active
+    + const char *name
+    --
+    /* Current data handle */
+    + WT_DATA_HANDLE *dhandle
+    --
+    /* Session handle reference list */
+    + TAILQ_HEAD(__dhandles, __wt_data_handle_cache) dhandles
+    /* Hashed handle reference list array */
+    + TAILQ_HEAD(__dhandles_hash, __wt_data_handle_cache) * dhhash
+}
+
+@enduml

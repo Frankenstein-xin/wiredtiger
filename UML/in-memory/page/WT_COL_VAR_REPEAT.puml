@@ -1,0 +1,10 @@
+@startuml WT_COL_VAR_REPEAT
+
+struct "__wt_col_var_repeat" as WT_COL_VAR_REPEAT {
+    /* repeat slots */
+    + uint32_t nrepeats
+    /* lookup RLE array */
+    + WT_COL_RLE repeats[0]
+}
+
+@enduml

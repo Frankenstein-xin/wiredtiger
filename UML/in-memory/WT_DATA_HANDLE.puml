@@ -1,0 +1,16 @@
+@startuml WT_DATA_HANDLE
+
+enum WT_DATA_HANDLE_TYPE {
+    WT_DHANDLE_TYPE_BTREE
+    WT_DHANDLE_TYPE_TABLE
+    WT_DHANDLE_TYPE_TIERED
+    WT_DHANDLE_TYPE_TIERED_TREE
+}
+
+struct "__wt_data_handle" as WT_DATA_HANDLE {
+    + WT_DATA_HANDLE_TYPE type
+    --
+    /* Generic handle */
+    + void *handle
+}
+@enduml

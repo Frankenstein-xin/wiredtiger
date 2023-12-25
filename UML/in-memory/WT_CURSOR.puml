@@ -1,0 +1,6 @@
+@startuml
+
+class "__wt_cursor" as WT_CURSOR {
+}
+
+@enduml

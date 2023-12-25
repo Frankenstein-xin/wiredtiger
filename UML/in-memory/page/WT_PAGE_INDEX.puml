@@ -1,0 +1,9 @@
+@startuml WT_PAGE_INDEX
+
+struct "__wt_page_index" as WT_PAGE_INDEX {
+    uint32_t entries;
+    uint32_t deleted_entries;
+    WT_REF **index;
+}
+
+@enduml

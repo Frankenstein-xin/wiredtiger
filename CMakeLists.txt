@@ -16,6 +16,9 @@ include(cmake/configs/modes.cmake)
 include(cmake/helpers.cmake)
 include(cmake/define_libwiredtiger.cmake)
 
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+
 # If the user doesn't manually specify the target ARCH and OS (i.e not cross-compiling)
 # we will infer the target from the host.
 if(NOT WT_ARCH)

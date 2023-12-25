@@ -1,0 +1,27 @@
+@startuml WT_CONNECTION
+
+struct "__wt_connection" as WT_CONNECTION {
+
+    + int (*close)(WT_CONNECTION *connection, const char *config)
+	+ int (*debug_info)(WT_CONNECTION *connection, const char *config)
+	+ int (*reconfigure)(WT_CONNECTION *connection, const char *config)
+	+ const char *(*get_home)(WT_CONNECTION *connection)
+	+ int (*configure_method)(WT_CONNECTION *connection, const char *method, const char *uri, const char *config, const char *type, const char *check)
+	+ int (*is_new)(WT_CONNECTION *connection)
+	+ int (*open_session)(WT_CONNECTION *connection,  WT_EVENT_HANDLER *event_handler, const char *config, WT_SESSION **sessionp)
+	+ int (*query_timestamp)(WT_CONNECTION *connection, char *hex_timestamp, const char *config)
+	+ int (*set_timestamp)(WT_CONNECTION *connection, const char *config)
+	+ int (*rollback_to_stable)(WT_CONNECTION *connection, const char *config)
+	+ int (*load_extension)(WT_CONNECTION *connection, const char *path, const char *config)
+	+ int (*add_data_source)(WT_CONNECTION *connection, const char *prefix, WT_DATA_SOURCE *data_source, const char *config)
+	+ int (*add_collator)(WT_CONNECTION *connection, const char *name, WT_COLLATOR *collator, const char *config)
+	+ int (*add_compressor)(WT_CONNECTION *connection, const char *name, WT_COMPRESSOR *compressor, const char *config)
+	+ int (*add_encryptor)(WT_CONNECTION *connection, const char *name, WT_ENCRYPTOR *encryptor, const char *config)
+	+ int (*add_extractor)(WT_CONNECTION *connection, const char *name, WT_EXTRACTOR *extractor, const char *config)
+	+ int (*set_file_system)(WT_CONNECTION *connection, WT_FILE_SYSTEM *fs, const char *config)
+	+ int (*add_storage_source)(WT_CONNECTION *connection, const char *name, WT_STORAGE_SOURCE *storage_source, const char *config)
+	+ int (*get_storage_source)(WT_CONNECTION *connection, const char *name, WT_STORAGE_SOURCE **storage_sourcep)
+	+ WT_EXTENSION_API *(*get_extension_api)(WT_CONNECTION *wt_conn)
+}
+
+@enduml

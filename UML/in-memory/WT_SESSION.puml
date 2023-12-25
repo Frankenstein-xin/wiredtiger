@@ -1,0 +1,37 @@
+@startuml WT_SESSION
+
+struct "__wt_session" as WT_SESSION {
+    + WT_CONNECTION *connection
+	+ int (*close)(WT_SESSION *session, const char *config)
+	+ int (*reconfigure)(WT_SESSION *session, const char *config)
+	+ int (*flush_tier)(WT_SESSION *session, const char *config)
+	+ const char * (*strerror)(WT_SESSION *session, int error)
+	+ int (*open_cursor)(WT_SESSION *session, const char *uri, WT_CURSOR *to_dup, const char *config, WT_CURSOR **cursorp)
+	+ int (*alter)(WT_SESSION *session, const char *name, const char *config)
+	+ int (*create)(WT_SESSION *session, const char *name, const char *config)
+    + int (*compact)(WT_SESSION *session, const char *name, const char *config)
+    + int (*drop)(WT_SESSION *session, const char *name, const char *config)
+    + int (*join)(WT_SESSION *session, WT_CURSOR *join_cursor, WT_CURSOR *ref_cursor, const char *config)
+    + int (*log_flush)(WT_SESSION *session, const char *config)
+    + int (*log_printf)(WT_SESSION *session, const char *format, ...)
+    + int (*rename)(WT_SESSION *session, const char *uri, const char *newuri, const char *config)
+    + int (*reset)(WT_SESSION *session);
+    + int (*salvage)(WT_SESSION *session, const char *name, const char *config)
+    + int (*truncate)(WT_SESSION *session, const char *name, WT_CURSOR *start, WT_CURSOR *stop, const char *config)
+    + int (*upgrade)(WT_SESSION *session, const char *name, const char *config)
+    + int (*verify)(WT_SESSION *session, const char *name, const char *config)
+    + int (*begin_transaction)(WT_SESSION *session, const char *config)
+    + int (*commit_transaction)(WT_SESSION *session, const char *config)
+    + int (*prepare_transaction)(WT_SESSION *session, const char *config)
+    + int (*rollback_transaction)(WT_SESSION *session, const char *config)
+    + int (*query_timestamp)(WT_SESSION *session, char *hex_timestamp, const char *config)
+    + int (*timestamp_transaction)(WT_SESSION *session, const char *config)
+    + int (*timestamp_transaction_uint)(WT_SESSION *session, WT_TS_TXN_TYPE which, uint64_t ts);
+    + int (*checkpoint)(WT_SESSION *session, const char *config)
+    + int (*reset_snapshot)(WT_SESSION *session)
+    + int (*transaction_pinned_range)(WT_SESSION* session, uint64_t *range)
+    + const char * (*get_rollback_reason)(WT_SESSION *session)
+    + int (*breakpoint)(WT_SESSION *session)
+}
+
+@enduml

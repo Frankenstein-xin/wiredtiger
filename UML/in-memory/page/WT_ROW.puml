@@ -1,0 +1,7 @@
+@startuml WT_ROW
+
+struct "__wt_row" as WT_ROW {
+    + void *volatile __key;
+}
+
+@enduml

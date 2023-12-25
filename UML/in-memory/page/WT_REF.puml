@@ -1,0 +1,22 @@
+@startuml WT_REF
+
+
+
+struct "__wt_ref" as WT_REF {
+    + WT_PAGE *page
+    --
+    WT_REF_FLAG_INTERNAL 0x1u /* Page is an internal page */
+    WT_REF_FLAG_LEAF 0x2u     /* Page is a leaf page */
+    WT_REF_FLAG_READING 0x4u  /* Page is being read in */
+    
+    + uint8_t flags;
+    --
+    /* Address: on-page cell if read from backing block, off-page WT_ADDR if instantiated in-memory, or NULL if page created in-memory. */
+    void *addr
+}
+
+note top of WT_REF
+    A single in-memory page and state information.
+end note
+
+@enduml

@@ -1,0 +1,10 @@
+@startuml WT_DATA_HANDLE_CACHE
+
+struct "__wt_data_handle_cache" as WT_DATA_HANDLE_CACHE {
+    + WT_DATA_HANDLE *dhandle
+    --
+    + TAILQ_ENTRY(__wt_data_handle_cache) q
+    + TAILQ_ENTRY(__wt_data_handle_cache) hashq
+}
+
+@enduml

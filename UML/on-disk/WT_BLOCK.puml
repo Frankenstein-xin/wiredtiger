@@ -1,0 +1,6 @@
+@startuml WT_BLOCK
+struct "__wt_block" as WT_BLOCK {
+    /* Underlying file */
+    + WT_BLOCK *block
+}
+@enduml

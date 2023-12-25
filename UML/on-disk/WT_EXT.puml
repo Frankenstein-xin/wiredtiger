@@ -1,0 +1,17 @@
+@startuml WT_EXT
+
+struct "__wt_ext" as WT_EXT {
+    + wt_off_t off  /* Extent's file offset */
+    + wt_off_t size /* Extent's Size */
+    --
+    + uint8_t depth /* Skip list depth */
+    + WT_EXT *next[0] /* Offset, size skiplists */
+}
+
+note left of WT_EXT::next
+    Variable-length array, sized by the number of skiplist elements. The first depth array
+    entries are the address skiplist elements, the second depth array entries are the size
+    skiplist.
+end note
+
+@enduml

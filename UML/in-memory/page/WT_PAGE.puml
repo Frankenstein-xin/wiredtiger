@@ -1,0 +1,51 @@
+@startuml WT_PAGE
+
+struct internal {
+    /* Parent reference */
+    + WT_REF *parent_ref
+    /* Generation of last split */
+    + uint64_t split_gen
+
+    /* Collated children */
+    + WT_PAGE_INDEX *volatile __index
+}
+
+struct fixed_length_column_store {
+    /* Values */
+    + uint8_t *fix_bitf;     
+    /* Time window index */
+    + WT_COL_FIX_TW *fix_tw; 
+}
+
+struct variable_length_column_store {
+    /* Values */
+    + WT_COL *col_var; 
+    /* Repeats array */           
+    + WT_COL_VAR_REPEAT *repeats; 
+}
+
+struct union {
+    + internal intl
+    + WT_ROW *row
+    + fixed_length_column_store col_fix
+    + variable_length_column_store col_var
+}
+
+struct "__wt_page" as WT_PAGE {
+    + union u
+    --
+    WT_PAGE_INVALID 0       /* Invalid page */
+    WT_PAGE_BLOCK_MANAGER 1 /* Block-manager page */
+    
+    WT_PAGE_COL_FIX 2       /* Col-store fixed-len leaf */
+    WT_PAGE_COL_INT 3       /* Col-store internal page */
+    WT_PAGE_COL_VAR 4       /* Col-store var-length leaf page */
+    WT_PAGE_OVFL 5          /* Overflow page */
+    
+    WT_PAGE_ROW_INT 6       /* Row-store internal page */
+    WT_PAGE_ROW_LEAF 7      /* Row-store leaf page */
+
+    + uint8_t type
+}
+
+@enduml

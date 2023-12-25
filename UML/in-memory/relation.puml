@@ -1,0 +1,57 @@
+@startuml relation
+<style>
+classDiagram {
+  class {
+      header {
+        FontSize 20
+        FontColor purple
+        FontStyle bold
+      }
+  }
+}
+</style>
+
+struct WT_CONNECTION_IMPL
+struct WT_FILE_SYSTEM
+struct WT_CONNECTION
+struct WT_EXTENSION_API
+struct WT_SESSION
+struct WT_SESSION_IMPL
+struct WT_CACHE
+struct WT_DATA_HANDLE_CACHE
+struct WT_DATA_HANDLE
+enum WT_DATA_HANDLE_TYPE
+struct WT_PAGE
+struct WT_ROW
+
+!include ./WT_CONNECTION.puml
+!include ./WT_CONNECTION_IMPL.puml
+!include ./WT_FILE_SYSTEM.puml
+!include ./WT_SESSION.puml
+!include ./WT_SESSION_IMPL.puml
+!include ./WT_CACHE.puml
+!include ./WT_EXTENSION_API.puml
+!include ./WT_DATA_HANDLE_CACHE.puml
+!include ./WT_DATA_HANDLE.puml
+!include ./WT_PAGE.puml
+
+WT_CONNECTION_IMPL ..up|> WT_CONNECTION
+WT_SESSION_IMPL ..left|> WT_SESSION
+
+WT_CONNECTION::get_extension_api .right.> WT_EXTENSION_API
+
+WT_SESSION_IMPL::iface -left-> WT_SESSION
+WT_SESSION_IMPL::dhandles -down-> WT_DATA_HANDLE_CACHE
+WT_SESSION_IMPL::dhhash -down-> WT_DATA_HANDLE_CACHE
+WT_SESSION_IMPL::dhandle --> WT_DATA_HANDLE
+
+WT_CONNECTION_IMPL::iface -up-> WT_CONNECTION
+WT_CONNECTION_IMPL::default_session -left-> WT_SESSION_IMPL
+WT_CONNECTION_IMPL::dummy_session -left-> WT_SESSION_IMPL
+WT_CONNECTION_IMPL::cache -down-> WT_CACHE
+WT_CONNECTION_IMPL::file_system -right-> WT_FILE_SYSTEM
+
+
+WT_DATA_HANDLE_CACHE::dhandle --> WT_DATA_HANDLE
+WT_DATA_HANDLE::type --> WT_DATA_HANDLE_TYPE
+@enduml

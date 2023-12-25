@@ -1,0 +1,23 @@
+@startuml WT_CACHE
+
+struct "__wt_cache" as WT_CACHE {
+    + WT_SPINLOCK evict_pass_lock
+    + WT_SESSION_IMPL *walk_session
+    /* LRU walk current tree */
+    + WT_DATA_HANDLE *walk_tree
+    --
+    /* Percent to allow dirty */
+    + double eviction_dirty_target
+    /* Percent for application to trigger dirty eviction */
+    + double eviction_dirty_trigger
+    /* Percent for application to trigger eviction */
+    + double eviction_trigger
+    /* Percent to end eviction */
+    + double eviction_target
+    /* Percent to allow for updates */
+    + double eviction_updates_target
+    /* Percent of updates for application to trigger eviction */
+    + double eviction_updates_trigger
+}
+
+@enduml

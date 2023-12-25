@@ -1,0 +1,22 @@
+@startuml WT_EXTLIST
+
+struct "__wt_extlist" as WT_EXTLIST {
+    + char *name /* Name */
+    --
+    + uint64_t bytes   /* Byte count */
+    + uint32_t entries /* Entry count */
+    -- 
+    + uint32_t objectid /* Written object ID */
+    + wt_off_t offset   /* Written extent offset */
+    + uint32_t checksum /* Written extent checksum */
+    + uint32_t size     /* Written extent size */
+    --
+    + bool track_size  /* Maintain per-size skiplist */
+    --
+    + WT_EXT *last     /* Cached last element */
+
+    + WT_EXT *off[WT_SKIP_MAXDEPTH] /* Size/offset skiplists */
+    + WT_SIZE *sz[WT_SKIP_MAXDEPTH]
+}
+
+@enduml

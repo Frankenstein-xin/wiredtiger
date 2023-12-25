@@ -61,7 +61,14 @@ access_example(void)
     cursor->set_key(cursor, "key1"); /* Insert a record. */
     cursor->set_value(cursor, "value1");
     error_check(cursor->insert(cursor));
-    /*! [access example cursor insert] */
+
+    cursor->set_key(cursor, "leon"); /* Insert a record. */
+    cursor->set_value(cursor, "cao");
+    error_check(cursor->insert(cursor));
+
+    cursor->set_key(cursor, "xiujie"); /* Insert a record. */
+    cursor->set_value(cursor, "ding");
+    error_check(cursor->insert(cursor));
 
     /*! [access example cursor list] */
     error_check(cursor->reset(cursor)); /* Restart the scan. */

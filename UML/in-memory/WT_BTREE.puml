@@ -1,0 +1,28 @@
+@startuml WT_BTREE
+
+struct "__wt_btree" as WT_BTREE {
+    + WT_DATA_HANDLE *dhandle
+    /* Root page reference */
+    + WT_REF root
+    --
+    /* Allocation size */
+    + uint32_t allocsize
+    /* Internal page max size */
+    + uint32_t maxintlpage
+    /* Leaf page max size */
+    + uint32_t maxleafpage
+    /* Leaf page max key size, if key size above this, will be overflow key*/
+    + uint32_t maxleafkey
+    /* Leaf page max value size */
+    + uint32_t maxleafvalue
+    /* In-memory page max size */
+    + uint64_t maxmempage
+    /* In-memory page image max size */
+    + uint32_t maxmempage_image
+    /* In-memory split trigger size */
+    + uint64_t splitmempage
+    --
+    /* Block manager reference */
+    + WT_BM *bm
+}
+@enduml
